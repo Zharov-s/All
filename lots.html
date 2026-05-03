@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABCENTRUM — каталог лотов</title>
+  <meta name="description" content="Каталог коммерческих лотов ABCENTRUM: Промтехнопарк «Митино», Промтехнопарк «Некрасовка» и Медицинский центр «Грекова». Аренда помещений и покупка зданий целиком.">
+  <meta property="og:title" content="ABCENTRUM — каталог лотов">
+  <meta property="og:description" content="Каталог коммерческих лотов ABCENTRUM: аренда помещений и покупка зданий целиком.">
+  <meta property="og:image" content="assets/object-mitino.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="catalog">
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+  <div id="main">
+    <header class="site-header solid" data-header></header>
+    <main class="catalog-page">
+      <section class="catalog-hero section-brand">
+        <p class="eyebrow">Каталог</p>
+        <h1>18 предложений ABCENTRUM</h1>
+        <p>Выберите режим сделки: аренда помещений или покупка здания целиком. Фильтры меняются под выбранный сценарий, чтобы не смешивать ставки аренды и цену покупки.</p>
+        <div class="catalog-stats">
+          <span>Всего: 18 предложений</span>
+          <span>Митино: 7 лотов</span>
+          <span>Некрасовка: 5 предложений</span>
+          <span>Грекова: 6 предложений</span>
+          <span>Покупка: 2 здания целиком</span>
+        </div>
+      </section>
+      <section class="catalog-workspace">
+        <aside class="filters-panel" data-filters></aside>
+        <div class="catalog-results">
+          <div class="catalog-toolbar">
+            <button class="btn btn-dark mobile-filter-toggle" type="button" data-toggle-filters><span aria-hidden="true">☷</span> Фильтры</button>
+            <p data-results-count>Найдено: 18 из 18</p>
+            <label class="sort-label">Сортировка
+              <select data-filter="sort">
+                <option value="recommended">Рекомендованные</option>
+                <option value="areaAsc">Площадь по возрастанию</option>
+                <option value="areaDesc">Площадь по убыванию</option>
+                <option value="priceAsc">Цена по возрастанию</option>
+                <option value="priceDesc">Цена по убыванию</option>
+                <option value="floor">Этаж</option>
+                <option value="object">Объект</option>
+              </select>
+            </label>
+          </div>
+          <div class="favorite-summary" data-favorite-summary hidden></div>
+          <div class="active-filters" data-active-filters></div>
+          <p class="buy-note" data-buy-note hidden>В покупке доступны только здания целиком: NKR-SALE-01 и GRK-SALE-01. Митино в режиме покупки не показывается.</p>
+          <div class="lot-grid catalog-grid" data-catalog-lots></div>
+          <div class="empty-state" data-empty-state hidden></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" data-footer></footer>
+  </div>
+  <div class="modal" data-request-modal aria-hidden="true"></div>
+  <div class="drawer" data-lot-drawer aria-hidden="true"></div>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
