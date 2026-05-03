@@ -404,8 +404,8 @@ body[data-page="object"] .site-header {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(3, 8, 20, 0.70) 0%, rgba(3, 8, 20, 0.37) 46%, rgba(3, 8, 20, 0.66) 100%),
-    linear-gradient(180deg, rgba(3, 8, 20, 0.10) 0%, rgba(3, 8, 20, 0.66) 100%);
+    linear-gradient(90deg, rgba(3, 8, 20, 0.46) 0%, rgba(3, 8, 20, 0.24) 46%, rgba(3, 8, 20, 0.43) 100%),
+    linear-gradient(180deg, rgba(3, 8, 20, 0.07) 0%, rgba(3, 8, 20, 0.43) 100%);
 }
 
 .hero-media,
