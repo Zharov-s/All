@@ -3937,9 +3937,14 @@ body.is-leaving #main {
 
 @media (max-width: 760px) {
   .mc-root {
-    height: 260px;
+    height: 340px;
     border-radius: var(--radius);
   }
+  .mc-item {
+    width: 100%;
+    padding: 12px;
+  }
+  .mc-track { gap: 0; }
   .mc-arrow { width: 40px; height: 40px; }
   .mc-arrow--prev { left: 12px; }
   .mc-arrow--next { right: 12px; }

@@ -2573,9 +2573,10 @@
 
     function pad(n) { return String(n).padStart(2, "0"); }
 
-    var GAP = 12;
-    function getItemW() { return (root.offsetWidth - (VISIBLE - 1) * GAP) / VISIBLE; }
-    function getStep() { return getItemW() + GAP; }
+    function getVisible() { return root.offsetWidth < 760 ? 1 : VISIBLE; }
+    function getGap() { return root.offsetWidth < 760 ? 0 : 12; }
+    function getItemW() { var v = getVisible(), g = getGap(); return (root.offsetWidth - (v - 1) * g) / v; }
+    function getStep() { return getItemW() + getGap(); }
 
     function realIndex(c) {
       return ((c - 1) % REAL + REAL) % REAL;
