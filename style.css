@@ -3547,7 +3547,7 @@ body.is-leaving #main {
 .mitino-feature-card {
   position: relative;
   min-height: 310px;
-  padding: 22px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -3589,8 +3589,8 @@ body.is-leaving #main {
 }
 
 .mitino-feature-icon img {
-  width: 46px;
-  height: 46px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
 }
 
@@ -3605,6 +3605,27 @@ body.is-leaving #main {
 .mitino-feature-card p {
   color: var(--muted-dark);
   line-height: 1.45;
+}
+
+.mitino-page .nkr-glass-card,
+.mitino-page .nkr-level-card,
+.mitino-feature-card {
+  border-color: rgba(173, 69, 47, 0.16);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(173, 69, 47, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.5));
+}
+
+.mitino-page .nkr-level-card::after,
+.mitino-feature-card::after {
+  border-color: rgba(173, 69, 47, 0.18);
+  background: rgba(173, 69, 47, 0.04);
+}
+
+.mitino-page .nkr-level-card span,
+.mitino-feature-card p,
+.mitino-kpi-card .mitino-kpi-copy > span {
+  color: var(--muted-dark);
 }
 
 .mitino-location-facts {
