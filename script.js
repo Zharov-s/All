@@ -6,7 +6,13 @@
   const objectLocations = {
     mitino: { lat: 55.849145, lng: 37.340891 },
     nekrasovka: { lat: 55.676544, lng: 37.930757 },
-    grekova: { lat: 55.8886667, lng: 37.6617222 }
+    grekova: { lat: 55.888667, lng: 37.661722 }
+  };
+
+  const objectMetro = {
+    mitino: { station: "Митино", time: "~7 мин пешком", color: "#446DAC" },
+    nekrasovka: { station: "Некрасовка", time: "~12 мин пешком", color: "#D38EB0" },
+    grekova: { station: "Медведково", time: "~5 мин пешком", color: "#DF823E" }
   };
   const featuredIds = ["B37A-04", "B37A-07", "NKR-ALL-R", "NKR-SALE-01", "GRK-ALL-R", "GRK-SALE-01"];
   let filters = {};
@@ -56,6 +62,7 @@
     if (page === "object") renderObjectPage();
 
     markActiveNavigation();
+    applyFormatLabels();
     updateFavoriteCount();
     initMotion();
     initPageTransitions();
@@ -72,14 +79,15 @@
       <nav class="nav-links" aria-label="Основная навигация">
         <a href="index.html">Главная</a>
         <a href="index.html#objects">Объекты</a>
-        <a href="index.html#map">Карта</a>
         <a href="lots.html">Каталог</a>
         <a href="lots.html?deal=buy&object=nekrasovka,grekova">Покупка</a>
+        <a href="index.html#map">Карта</a>
         <a href="index.html#contacts">Контакты</a>
       </nav>
       <div class="header-contacts">
+        <span class="mobile-menu-label">Контакты</span>
         <a href="${data.contacts.phoneHref}">${data.contacts.phone}</a>
-        <a href="${data.contacts.telegramHref}" aria-label="Telegram ABCENTRUM"><img class="telegram-icon" src="assets/telegram.svg" alt=""></a>
+        <a href="${data.contacts.telegramHref}" aria-label="Telegram ABCENTRUM"><span class="desktop-telegram-icon"><img class="telegram-icon" src="assets/telegram.svg" alt=""></span><span class="mobile-telegram-label">${data.contacts.telegram}</span></a>
         <a class="fav-link" href="lots.html?favorites=1" aria-label="Избранное"><span class="fav-link-heart" aria-hidden="true">♡</span><span data-fav-count>0</span></a>
         <button class="btn btn-ghost" type="button" data-open-request data-context="Быстрый запрос из шапки">Оставить заявку</button>
       </div>
@@ -174,6 +182,8 @@
         </div>
         <div class="area-range-inline" data-area-range aria-label="Диапазон площади">
           <div class="range-slider range-slider--compact" style="--range-start:0%; --range-end:100%;">
+            <div class="range-value range-value--min" data-area-min-label>0 м²</div>
+            <div class="range-value range-value--max" data-area-max-label>6000 м²</div>
             <div class="range-slider-track"></div>
             <div class="range-slider-active"></div>
             <input data-area-range-min type="range" min="${areaConfig.min}" max="${areaConfig.max}" step="${areaConfig.step}" value="${areaConfig.startMin}" aria-label="Минимальная площадь">
@@ -194,10 +204,10 @@
           <select data-home-format>${formats.map(([value, label]) => `<option value="${value}">${label}</option>`).join("")}</select>
         </label>
         <label class="field">Площадь от
-          <input data-home-area-min type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="0" value="${areaConfig.startMin}">
+          <input data-home-area-min type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="от 0 м²" value="${areaConfig.startMin}">
         </label>
         <label class="field">Площадь до
-          <input data-home-area-max type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="6000" value="${areaConfig.startMax}">
+          <input data-home-area-max type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="до 6000 м²" value="${areaConfig.startMax}">
         </label>
         <button class="btn btn-primary" type="button" data-home-submit>Применить</button>
       </div>
@@ -235,6 +245,16 @@
       const end = ((max - areaConfig.min) / (areaConfig.max - areaConfig.min)) * 100;
       rangeSlider.style.setProperty("--range-start", `${start}%`);
       rangeSlider.style.setProperty("--range-end", `${end}%`);
+      const minLabel = target.querySelector("[data-area-min-label]");
+      const maxLabel = target.querySelector("[data-area-max-label]");
+      if (minLabel) {
+        minLabel.textContent = `${min.toLocaleString("ru-RU")} м²`;
+        minLabel.style.left = `${start}%`;
+      }
+      if (maxLabel) {
+        maxLabel.textContent = `${max.toLocaleString("ru-RU")} м²`;
+        maxLabel.style.left = `${end}%`;
+      }
     }
 
     function syncAreaRange(source) {
@@ -314,31 +334,15 @@
   function renderObjectsMap() {
     const target = document.querySelector("[data-objects-map]");
     if (!target) return;
-    const objects = data.objects.map((object, index) => ({
-      ...object,
-      ...objectLocations[object.id],
-      mapIndex: index + 1
-    })).filter((object) => object.lat && object.lng);
+    const objects = getMapObjects();
 
     target.innerHTML = `
       <div class="map-viewport reveal" aria-label="Яндекс.Карта объектов ABCENTRUM">
-        <div class="map-fallback" aria-hidden="true"></div>
-        <iframe
-          class="map-iframe"
-          title="Яндекс.Карта объектов ABCENTRUM в Москве"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          src="${getYandexMapUrl(objects)}">
-        </iframe>
-        <div class="map-glass" aria-hidden="true"></div>
-        <div class="map-overlay map-overlay-bottom">
-          ${objects.map((object) => `
-            <a href="${getYandexObjectUrl(object.id)}" target="_blank" rel="noopener noreferrer" class="map-marker-item" aria-label="Открыть в Яндекс.Картах: ${object.title}">
-              <span class="map-marker-number">${object.mapIndex}</span>
-              <span>${object.shortTitle}</span>
-            </a>
-          `).join("")}
-        </div>
+        <div id="abcentrum-yandex-map" class="yandex-map" data-yandex-map></div>
+        <a class="map-static-fallback" data-map-fallback href="${getYandexMapUrl(objects)}" target="_blank" rel="noopener noreferrer" hidden>
+          <img src="${getYandexStaticMapUrl(objects)}" alt="Статичная карта объектов ABCENTRUM" loading="lazy">
+          <span>Открыть объекты в Яндекс.Картах</span>
+        </a>
       </div>
       <div class="map-object-list">
         ${objects.map((object) => `
@@ -347,7 +351,7 @@
               <p class="eyebrow">${object.deals.includes("buy") ? "Аренда · Покупка" : "Аренда"}</p>
               <h3><span>${object.mapIndex}</span>${object.title}</h3>
               <p>${object.address}</p>
-              <div class="map-coords">${object.lat.toFixed(6)}, ${object.lng.toFixed(6)}</div>
+              <div class="map-metro">${getMetroIcon(object.id)}<span>${getMetroText(object.id)}</span></div>
             </div>
             <div class="map-card-actions">
               <a class="btn btn-dark" href="${getRouteUrl(object.id)}" target="_blank" rel="noopener noreferrer">Проложить маршрут</a>
@@ -357,13 +361,123 @@
         `).join("")}
       </div>
     `;
+
+    requestAnimationFrame(() => initYandexObjectsMap(objects));
+  }
+
+  function getMapObjects() {
+    return data.objects.map((object, index) => ({
+      ...object,
+      ...objectLocations[object.id],
+      mapIndex: index + 1
+    })).filter((object) => object.lat && object.lng);
+  }
+
+  function loadYandexMapsApi() {
+    if (window.ymaps) return Promise.resolve(window.ymaps);
+    if (window.__abcentrumYmapsPromise) return window.__abcentrumYmapsPromise;
+
+    window.__abcentrumYmapsPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      const apiKey = window.ABCENTRUM_YMAPS_API_KEY || "";
+      const params = new URLSearchParams({ lang: "ru_RU" });
+      if (apiKey) params.set("apikey", apiKey);
+      script.src = `https://api-maps.yandex.ru/2.1/?${params.toString()}`;
+      script.async = true;
+      script.onload = () => window.ymaps ? window.ymaps.ready(() => resolve(window.ymaps)) : reject(new Error("Yandex Maps API is unavailable"));
+      script.onerror = () => reject(new Error("Yandex Maps API failed to load"));
+      document.head.appendChild(script);
+    });
+
+    return window.__abcentrumYmapsPromise;
+  }
+
+  function initYandexObjectsMap(objects = getMapObjects()) {
+    const node = document.querySelector("[data-yandex-map]");
+    if (!node || node.dataset.initialized === "true") return;
+    const fallbackTimer = window.setTimeout(showMapFallback, 6500);
+
+    loadYandexMapsApi()
+      .then((ymaps) => {
+        window.clearTimeout(fallbackTimer);
+        node.dataset.initialized = "true";
+        const map = new ymaps.Map(node, {
+          center: [55.7856, 37.6409],
+          zoom: window.matchMedia("(max-width: 760px)").matches ? 9 : 10,
+          controls: ["zoomControl", "fullscreenControl"]
+        }, {
+          suppressMapOpenBlock: true,
+          yandexMapDisablePoiInteractivity: true
+        });
+
+        const collection = new ymaps.GeoObjectCollection(null, {
+          preset: "islands#circleDotIcon",
+          iconColor: "#b3261b"
+        });
+
+        objects.forEach((object) => {
+          const placemark = new ymaps.Placemark([object.lat, object.lng], {
+            hintContent: object.title,
+            balloonContentHeader: object.title,
+            balloonContentBody: `
+              <div class="ymap-balloon">
+                <p>${object.address}</p>
+                <p class="ymap-balloon-metro">${getMetroIcon(object.id)}<span>${getMetroText(object.id)}</span></p>
+                <a href="${getRouteUrl(object.id)}" target="_blank" rel="noopener noreferrer">Проложить маршрут</a>
+              </div>
+            `
+          }, {
+            preset: "islands#circleDotIcon",
+            iconColor: getMetroColor(object.id),
+            hideIconOnBalloonOpen: false
+          });
+          collection.add(placemark);
+        });
+
+        map.geoObjects.add(collection);
+        const bounds = collection.getBounds();
+        if (bounds) map.setBounds(bounds, { checkZoomRange: true, zoomMargin: window.matchMedia("(max-width: 760px)").matches ? 44 : 72 });
+      })
+      .catch(showMapFallback);
+  }
+
+  function showMapFallback() {
+    const fallback = document.querySelector("[data-map-fallback]");
+    const node = document.querySelector("[data-yandex-map]");
+    if (node) node.hidden = true;
+    if (fallback) fallback.hidden = false;
+  }
+
+  function getMetroData(objectId) {
+    return objectMetro[objectId] || { station: "Уточните ориентир у менеджера", time: "", color: "#b3261b" };
+  }
+
+  function getMetroText(objectId) {
+    const metro = getMetroData(objectId);
+    return metro.time ? `${metro.station} · ${metro.time}` : metro.station;
+  }
+
+  function getMetroColor(objectId) {
+    return getMetroData(objectId).color;
+  }
+
+  function getMetroIcon(objectId) {
+    const color = getMetroColor(objectId);
+    return `
+      <span class="metro-icon" style="--metro-color: ${color}" aria-hidden="true">
+        <svg viewBox="0 0 28 28" focusable="false">
+          <circle cx="14" cy="14" r="12" />
+          <path d="M7.2 19.4V8.6h3l3.8 5.5 3.8-5.5h3v10.8h-2.55v-6.45l-3.35 4.78h-1.8l-3.35-4.78v6.45H7.2Z" />
+        </svg>
+      </span>
+    `;
   }
 
   function getYandexMapUrl(objects) {
     const center = { lat: 55.7856, lng: 37.6409 };
     const zoom = window.matchMedia("(max-width: 760px)").matches ? 9 : 10;
     const points = objects.map((object) => {
-      const color = object.id === "mitino" ? "rd" : object.id === "nekrasovka" ? "db" : "gn";
+      const color = object.id === "mitino" ? "rd" : object.id === "nekrasovka" ? "rd" : "rd";
       return `${object.lng},${object.lat},pm2${color}m${object.mapIndex}`;
     }).join("~");
     const params = new URLSearchParams({
@@ -372,7 +486,18 @@
       z: String(zoom),
       pt: points
     });
-    return `https://yandex.ru/map-widget/v1/?${params.toString()}`;
+    return `https://yandex.ru/maps/?${params.toString()}`;
+  }
+
+  function getYandexStaticMapUrl(objects) {
+    const params = new URLSearchParams({
+      l: "map",
+      ll: "37.6409,55.7856",
+      z: "10",
+      size: "650,420",
+      pt: objects.map((object) => `${object.lng},${object.lat},pm2rdm${object.mapIndex}`).join("~")
+    });
+    return `https://static-maps.yandex.ru/1.x/?${params.toString()}`;
   }
 
   function getYandexObjectUrl(objectId) {
@@ -429,20 +554,47 @@
   }
 
   function renderFaq() {
-    const faq = [
-      ["Какие объекты доступны?", "Промтехнопарк «Митино», Промтехнопарк «Некрасовка» и Медицинский центр «Грекова»."],
-      ["Чем отличаются аренда и покупка?", "Аренда доступна блоками и зданием целиком в зависимости от объекта. Покупка доступна только зданиями целиком по Некрасовке и Грекова."],
-      ["Почему Митино не отображается при покупке?", "Митино сейчас работает только как арендный объект, поэтому покупных лотов по нему нет."],
-      ["Можно ли купить отдельный этаж?", "Нет. Отдельные этажи не продаются, чтобы не создавать дубли лотов и не смешивать сценарии сделки."],
-      ["Что входит в ставку?", "В карточках лотов отдельно указаны ставка, OPEX, НДС, коммунальные платежи, fit-out и состояние передачи там, где эти данные доступны."],
-      ["Как быстро получить материалы?", "Оставьте заявку на нужный объект или лот: менеджер отправит планировки, презентацию и коммерческие условия."],
+    const clientFaq = [
+      ["Какой минимальный срок аренды?", "От 11 месяцев. Для отдельных форматов возможен краткосрочный договор — уточняйте у менеджера."],
+      ["Входит ли отделка в арендную ставку?", "Нет. Помещения сдаются в состоянии Shell & Core. Fit-out обсуждается отдельно, возможна арендная каникула на период ремонта."],
+      ["Есть ли парковка?", "Да, на всех объектах предусмотрена парковка для арендаторов. Количество мест зависит от площади арендуемого блока."],
+      ["Что входит в ставку и что оплачивается отдельно?", "Ставка — за площадь. Отдельно: OPEX (эксплуатация), коммунальные платежи, НДС 20%. Подробный расчёт менеджер пришлёт после заявки."],
+      ["Можно ли арендовать часть этажа?", "В Митино — да, доступно 7 блоков от ~430 м². В Некрасовке и Грекова — только здание целиком."],
+      ["Как проходит сделка купли-продажи?", "Через ПДКП (предварительный договор) или ДКПБВ (договор купли-продажи будущей вещи). Пакет документов высылается после заявки."]
+    ];
+    const siteFaq = [
       ["Как работает избранное?", "ID лотов сохраняются в браузере. Их можно открыть в каталоге, сравнить и передать менеджеру в заявке."],
-      ["Как отправить заявку?", "Форма собирает только необходимые данные: имя, телефон, объект и комментарий. Если автоматическая отправка не подключена, сайт сразу показывает быстрые контакты для передачи заявки менеджеру."]
+      ["Почему Митино не отображается при покупке?", "Митино сейчас доступен только в аренду, поэтому в режиме покупки показываются Некрасовка и Грекова."]
     ];
     const target = document.querySelector("[data-faq]");
     if (!target) return;
-    target.innerHTML = faq.map(([question, answer], index) => `<article class="faq-item ${index === 0 ? "is-open" : ""}"><button type="button">${question}</button><p>${answer}</p></article>`).join("");
-    target.querySelectorAll("button").forEach((button) => button.addEventListener("click", () => button.closest(".faq-item").classList.toggle("is-open")));
+    const item = ([question, answer], index, prefix = "faq") => `
+      <article class="faq-item ${index === 0 && prefix === "faq" ? "is-open" : ""}">
+        <button type="button" aria-expanded="${index === 0 && prefix === "faq" ? "true" : "false"}">${question}</button>
+        <div class="faq-answer"><p>${answer}</p></div>
+      </article>
+    `;
+    target.innerHTML = `
+      ${clientFaq.map((entry, index) => item(entry, index)).join("")}
+      <div class="faq-subgroup">
+        <h3>Вопросы о сайте</h3>
+        ${siteFaq.map((entry, index) => item(entry, index, "site")).join("")}
+      </div>
+    `;
+    target.querySelectorAll(".faq-item button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const current = button.closest(".faq-item");
+        const isOpen = current.classList.contains("is-open");
+        target.querySelectorAll(".faq-item").forEach((item) => {
+          item.classList.remove("is-open");
+          item.querySelector("button")?.setAttribute("aria-expanded", "false");
+        });
+        if (!isOpen) {
+          current.classList.add("is-open");
+          button.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
   }
 
   function renderCatalog() {
@@ -491,9 +643,19 @@
       </label>
       ${selectField("object", "Объект", objectOptions, filters.object)}
       ${selectField("type", "Формат", formats, filters.type)}
+      <div class="catalog-area-range" data-catalog-area-range>
+        <div class="range-slider" style="--range-start:0%; --range-end:100%;">
+          <div class="range-value range-value--min" data-catalog-area-min-label>${filters.areaMin || 0} м²</div>
+          <div class="range-value range-value--max" data-catalog-area-max-label>${filters.areaMax || 6000} м²</div>
+          <div class="range-slider-track"></div>
+          <div class="range-slider-active"></div>
+          <input data-catalog-area-min type="range" min="0" max="6000" step="10" value="${filters.areaMin || 0}" aria-label="Минимальная площадь">
+          <input data-catalog-area-max type="range" min="0" max="6000" step="10" value="${filters.areaMax || 6000}" aria-label="Максимальная площадь">
+        </div>
+      </div>
       <div class="filter-row">
-        <label class="field">Площадь от<input data-filter="areaMin" type="number" value="${filters.areaMin}"></label>
-        <label class="field">Площадь до<input data-filter="areaMax" type="number" value="${filters.areaMax}"></label>
+        <label class="field">Площадь от<input data-filter="areaMin" type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="от 0 м²" value="${filters.areaMin}"></label>
+        <label class="field">Площадь до<input data-filter="areaMax" type="number" min="0" max="6000" step="10" inputmode="numeric" placeholder="до 6000 м²" value="${filters.areaMax}"></label>
       </div>
       <div class="filter-row">
         <label class="field">${priceLabel} от<input data-filter="priceMin" type="number" value="${filters.priceMin}"></label>
@@ -512,6 +674,7 @@
 
   function bindFilterInputs() {
     document.querySelectorAll("[data-filter]").forEach((input) => {
+      if (["areaMin", "areaMax"].includes(input.dataset.filter)) return;
       input.addEventListener("input", onFilterChange);
       input.addEventListener("change", onFilterChange);
     });
@@ -530,9 +693,68 @@
         renderCatalogLots();
       });
     });
+    initCatalogAreaRange();
     document.querySelector("[data-toggle-filters]")?.addEventListener("click", () => document.querySelector("[data-filters]").classList.add("is-open"));
     document.querySelector("[data-close-filters]")?.addEventListener("click", () => document.querySelector("[data-filters]").classList.remove("is-open"));
     document.querySelector("[data-reset-filters]")?.addEventListener("click", resetFilters);
+  }
+
+  function initCatalogAreaRange() {
+    const host = document.querySelector("[data-catalog-area-range]");
+    if (!host) return;
+    const slider = host.querySelector(".range-slider");
+    const minRange = host.querySelector("[data-catalog-area-min]");
+    const maxRange = host.querySelector("[data-catalog-area-max]");
+    const minInput = document.querySelector('[data-filter="areaMin"]');
+    const maxInput = document.querySelector('[data-filter="areaMax"]');
+    const minLabel = host.querySelector("[data-catalog-area-min-label]");
+    const maxLabel = host.querySelector("[data-catalog-area-max-label]");
+    const config = { min: 0, max: 6000, gap: 50 };
+
+    const clamp = (nextMin, nextMax, source) => {
+      let min = Math.max(config.min, Math.min(Number(nextMin) || 0, config.max));
+      let max = Math.max(config.min, Math.min(Number(nextMax) || config.max, config.max));
+      if (max - min < config.gap) {
+        if (source === "min") min = Math.max(config.min, max - config.gap);
+        else max = Math.min(config.max, min + config.gap);
+      }
+      return { min, max };
+    };
+
+    const paint = (min, max) => {
+      const start = ((min - config.min) / (config.max - config.min)) * 100;
+      const end = ((max - config.min) / (config.max - config.min)) * 100;
+      slider.style.setProperty("--range-start", `${start}%`);
+      slider.style.setProperty("--range-end", `${end}%`);
+      minRange.value = String(min);
+      maxRange.value = String(max);
+      minInput.value = min ? String(min) : "";
+      maxInput.value = max === config.max ? "" : String(max);
+      minLabel.textContent = `${min.toLocaleString("ru-RU")} м²`;
+      maxLabel.textContent = `${max.toLocaleString("ru-RU")} м²`;
+      minLabel.style.left = `${start}%`;
+      maxLabel.style.left = `${end}%`;
+    };
+
+    const sync = (source) => {
+      const values = clamp(source === "min" ? minRange.value : minInput.value, source === "max" ? maxRange.value : maxInput.value, source);
+      filters.areaMin = values.min ? String(values.min) : "";
+      filters.areaMax = values.max === config.max ? "" : String(values.max);
+      paint(values.min, values.max);
+      renderCatalogLots();
+    };
+
+    paint(Number(filters.areaMin || 0), Number(filters.areaMax || config.max));
+    minRange.addEventListener("input", () => sync("min"));
+    maxRange.addEventListener("input", () => sync("max"));
+    minInput.addEventListener("input", () => {
+      minInput.value = minInput.value.replace(/[^\d]/g, "");
+      sync("min");
+    });
+    maxInput.addEventListener("input", () => {
+      maxInput.value = maxInput.value.replace(/[^\d]/g, "");
+      sync("max");
+    });
   }
 
   function onFilterChange(event) {
@@ -541,6 +763,16 @@
     else filters[input.dataset.filter] = input.value;
 
     if (filters.deal === "buy" && filters.object === "mitino") filters.object = "all";
+    if (["areaMin", "areaMax"].includes(input.dataset.filter)) {
+      const min = Number(filters.areaMin || 0);
+      const max = Number(filters.areaMax || 6000);
+      if (min > max) {
+        if (input.dataset.filter === "areaMin") filters.areaMax = String(min);
+        else filters.areaMin = String(max);
+        renderFilters();
+        bindFilterInputs();
+      }
+    }
     renderCatalogLots();
   }
 
@@ -555,7 +787,10 @@
   function renderCatalogLots() {
     const lots = filteredLots();
     const grid = document.querySelector("[data-catalog-lots]");
-    if (grid) grid.innerHTML = lots.map(lotCard).join("");
+    if (grid) {
+      grid.innerHTML = lots.map(lotCard).join("");
+      applyFormatLabels(grid);
+    }
     if (revealObserver) refreshRevealTargets();
     document.querySelector("[data-results-count]").textContent = `Найдено: ${lots.length} из ${data.lots.length}`;
     document.querySelector("[data-buy-note]").hidden = filters.deal !== "buy";
@@ -699,6 +934,28 @@
     return { src: object.image, isPlan: false, alt: `${object.title} · ${lot.id}` };
   }
 
+  function formatLabel(slug = "") {
+    const labels = {
+      office: "Офис",
+      industrial: "Light industrial",
+      mezzanine: "Мезонин",
+      showroom: "Шоурум",
+      food: "Общепит",
+      retail: "Street retail",
+      service: "Сервис",
+      medical: "Медицинский центр"
+    };
+    const key = String(slug).trim().toLowerCase();
+    if (labels[key]) return labels[key];
+    return key ? key.charAt(0).toUpperCase() + key.slice(1) : "Формат";
+  }
+
+  function applyFormatLabels(root = document) {
+    root.querySelectorAll("[data-format]").forEach((node) => {
+      node.textContent = formatLabel(node.dataset.format || node.textContent);
+    });
+  }
+
   function getHeightLabel(lot) {
     const raw = String(lot?.ceiling || "");
     return raw.toLowerCase().includes("высота здания") ? "Высота здания" : "Потолки";
@@ -732,7 +989,7 @@
           </div>
           <div class="lot-badges">
             <span>${dealLabel}</span>
-            ${whole ? "<span>Здание целиком</span>" : `<span>${lot.category}</span>`}
+            ${whole ? "<span>Здание целиком</span>" : `<span data-format="${lot.category}">${formatLabel(lot.category)}</span>`}
             <span>${lot.condition.split("·")[0].trim()}</span>
           </div>
           <div class="lot-specs lot-specs--labeled">
@@ -1714,35 +1971,84 @@
     `;
   }
 
+  function setMobileMenu(open) {
+    const header = document.querySelector("[data-header]");
+    const menuButton = document.querySelector("[data-menu-toggle]");
+    header?.classList.toggle("is-open", open);
+    menuButton?.setAttribute("aria-expanded", String(open));
+    menuButton?.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+  }
+
   function bindGlobalClicks() {
     document.addEventListener("click", (event) => {
+      const closeModalButton = event.target.closest("[data-close-modal]");
+      if (closeModalButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+        return;
+      }
+
+      if (event.target.matches("[data-request-modal]")) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeModal();
+        return;
+      }
+
+      const closeDrawerButton = event.target.closest("[data-close-drawer]");
+      if (closeDrawerButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeDrawer();
+        return;
+      }
+
+      if (event.target.matches("[data-lot-drawer]")) {
+        event.preventDefault();
+        event.stopPropagation();
+        closeDrawer();
+        return;
+      }
+
       const menuToggle = event.target.closest("[data-menu-toggle]");
       if (menuToggle) {
+        event.preventDefault();
+        event.stopPropagation();
         const header = document.querySelector("[data-header]");
-        const nextState = !header.classList.contains("is-open");
-        header.classList.toggle("is-open", nextState);
-        menuToggle.setAttribute("aria-expanded", String(nextState));
-        menuToggle.setAttribute("aria-label", nextState ? "Закрыть меню" : "Открыть меню");
+        setMobileMenu(!header?.classList.contains("is-open"));
+        return;
       }
 
-      if (event.target.closest(".nav-links a")) {
-        document.querySelector("[data-header]")?.classList.remove("is-open");
-        const menuButton = document.querySelector("[data-menu-toggle]");
-        menuButton?.setAttribute("aria-expanded", "false");
-        menuButton?.setAttribute("aria-label", "Открыть меню");
+      const openedHeader = document.querySelector("[data-header].is-open");
+      if (openedHeader && !event.target.closest("[data-header]")) {
+        setMobileMenu(false);
       }
+
+      if (event.target.closest(".nav-links a")) setMobileMenu(false);
 
       const lotButton = event.target.closest("[data-open-lot]");
-      if (lotButton) openLotDrawer(lotButton.dataset.openLot);
+      if (lotButton) {
+        event.preventDefault();
+        openLotDrawer(lotButton.dataset.openLot);
+        return;
+      }
 
       const requestButton = event.target.closest("[data-open-request]");
-      if (requestButton) openRequestModal(requestButton.dataset);
+      if (requestButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        setMobileMenu(false);
+        openRequestModal(requestButton.dataset);
+        return;
+      }
 
       const favoriteButton = event.target.closest("[data-favorite]");
-      if (favoriteButton) toggleFavorite(favoriteButton.dataset.favorite);
-
-      if (event.target.matches("[data-close-modal]") || event.target.matches("[data-request-modal]")) closeModal();
-      if (event.target.closest("[data-close-drawer]") || event.target.matches("[data-lot-drawer]")) closeDrawer();
+      if (favoriteButton) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleFavorite(favoriteButton.dataset.favorite);
+      }
     });
   }
 
@@ -1762,7 +2068,7 @@
         <div class="facts-grid">
           ${[
             ["ID лота", lot.id], ["Объект", object.title], ["Сделка", dealLabel], ["Тип", lot.type],
-            ["Подтип", lot.subType], ["Категория", lot.category], ["Площадь", formatArea(lot.area)],
+            ["Подтип", lot.subType], ["Категория", formatLabel(lot.category)], ["Площадь", formatArea(lot.area)],
             ["Этаж", lot.floor], [getHeightLabel(lot), getHeightValue(lot)], [lot.deal === "buy" ? "Цена" : "Ставка", lot.rate],
             ["Состояние", lot.condition], ["Статус", statusLabel(lot.status)]
           ].map(([label, value]) => `<div class="fact-card"><p class="eyebrow">${label}</p><strong>${value}</strong></div>`).join("")}
@@ -1797,7 +2103,7 @@
   function renderRequestModal() {
     const modal = document.querySelector("[data-request-modal]");
     if (!modal) return;
-    modal.innerHTML = `<div class="modal-panel"><button class="modal-close" type="button" data-close-modal>×</button><div data-request-form></div></div>`;
+    modal.innerHTML = `<div class="modal-panel"><button class="modal-close modal-close--icon" type="button" data-close-modal aria-label="Закрыть форму"><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span></button><div data-request-form></div></div>`;
   }
 
   function openRequestModal(context = {}) {
@@ -1809,7 +2115,7 @@
     const favoriteIds = getFavorites();
     formHost.innerHTML = `
       <p class="eyebrow">Заявка ABCENTRUM</p>
-      <h2>Получить условия</h2>
+      <h2>Оставить заявку</h2>
       <p>Оставьте минимум контактов. В заявке автоматически передадим выбранный объект, лот и избранные предложения.</p>
       <form class="request-form" data-request-form-submit>
         <label class="field">Имя *<input name="name" required autocomplete="name"></label>
@@ -1962,10 +2268,7 @@
       if (event.key !== "Escape") return;
       closeModal();
       closeDrawer();
-      document.querySelector("[data-header]")?.classList.remove("is-open");
-      const menuButton = document.querySelector("[data-menu-toggle]");
-      menuButton?.setAttribute("aria-expanded", "false");
-      menuButton?.setAttribute("aria-label", "Открыть меню");
+      setMobileMenu(false);
     });
   }
 
