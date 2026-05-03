@@ -1287,7 +1287,7 @@
           level: "-1 этаж",
           area: "229,18 м²",
           note: "подземно-технический уровень · 229,18 м²",
-          icon: "assets/icon-technical-gear.svg",
+          icon: "assets/icon-nkr-technical.svg",
           role: "технический",
           summary: "Подземный уровень с инженерной и обслуживающей функцией.",
           chips: ["технические помещения"],
@@ -1297,7 +1297,7 @@
           level: "1 этаж",
           area: "2 509,78 м²",
           note: "2 509,78 м²",
-          icon: "assets/icon-floor-grid.svg",
+          icon: "assets/icon-nkr-floor.svg",
           role: "производственный",
           summary: "Основной производственный уровень с максимальной нагрузкой на перекрытие.",
           chips: ["h 8,0 м", "5,0 т/м²"],
@@ -1307,7 +1307,7 @@
           level: "2 этаж",
           area: "2 571,35 м²",
           note: "2 571,35 м²",
-          icon: "assets/icon-layers.svg",
+          icon: "assets/icon-nkr-layers.svg",
           role: "light industrial",
           summary: "Второй уровень под производство, сборку и сопутствующие сценарии АБК.",
           chips: ["h 6,2 м", "2,5 т/м²"],
@@ -1317,7 +1317,7 @@
           level: "Антресоль",
           area: "196,65 м²",
           note: "196,65 м²",
-          icon: "assets/icon-mezzanine.svg",
+          icon: "assets/icon-nkr-mezzanine.svg",
           role: "вспомогательный",
           summary: "Дополнительный уровень под сервисные, офисные и вспомогательные функции.",
           chips: ["h 4,0 м"],
@@ -1432,7 +1432,7 @@
           </div>
         </section>
 
-        <section class="object-content nkr-page">
+        <section class="object-content nkr-page nekrasovka-page">
           <nav class="nkr-subnav reveal" aria-label="Разделы страницы Некрасовки">
             <a href="#nkr-about">О проекте</a>
             <a href="#nkr-specs">Характеристики</a>

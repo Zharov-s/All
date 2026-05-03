@@ -4227,6 +4227,54 @@ body.is-leaving #main {
   }
 }
 
+.nekrasovka-page {
+  --nkr-icon-box: 76px;
+  --nkr-icon-size: 38px;
+  --nkr-icon-radius: var(--radius-sm);
+  --nkr-icon-border: rgba(173, 69, 47, 0.2);
+  --nkr-icon-bg: rgba(255, 255, 255, 0.56);
+}
+
+.nekrasovka-page .nkr-glass-card,
+.nekrasovka-page .nkr-tech-card,
+.nekrasovka-page .nkr-plan-card {
+  border-color: rgba(173, 69, 47, 0.16);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(173, 69, 47, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.5));
+}
+
+.nekrasovka-page .nkr-tech-card-main {
+  grid-template-columns: var(--nkr-icon-box) 1fr;
+}
+
+.nekrasovka-page .nkr-tech-icon,
+.nekrasovka-page .nkr-plan-card-icon {
+  width: var(--nkr-icon-box);
+  height: var(--nkr-icon-box);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid var(--nkr-icon-border);
+  border-radius: var(--nkr-icon-radius);
+  background: var(--nkr-icon-bg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.44);
+  backdrop-filter: blur(12px);
+}
+
+.nekrasovka-page .nkr-tech-icon img,
+.nekrasovka-page .nkr-plan-card-icon img {
+  width: var(--nkr-icon-size);
+  height: var(--nkr-icon-size);
+  display: block;
+  object-fit: contain;
+  opacity: 1;
+}
+
+.nekrasovka-page .nkr-plan-card::after {
+  display: none;
+}
+
 /* === Palette refinement · ABCENTRUM === */
 :root {
   --ink: #121110;
