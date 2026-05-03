@@ -1018,10 +1018,10 @@
 
     if (id === "mitino") {
       const mitinoKpis = [
-        ["11 776,20 м²", "общая площадь комплекса"],
-        ["1,5 МВт", "электрическая мощность"],
-        ["70 м/м", "парковочных мест"],
-        ["III кв. 2026", "ввод в эксплуатацию"]
+        ["11 776,20 м²", "общая площадь комплекса", "assets/icon-kpi-area.svg"],
+        ["1,5 МВт", "электрическая мощность", "assets/icon-kpi-power.svg"],
+        ["70 м/м", "парковочных мест", "assets/icon-kpi-parking.svg"],
+        ["III кв. 2026", "ввод в эксплуатацию", "assets/icon-kpi-calendar.svg"]
       ];
 
       const mitinoSpecs = [
@@ -1115,7 +1115,12 @@
               <p>Объект расположен в Митино по адресу Москва, Барышиха 37А. Это современный промтехнопарк для компаний, которым важно разместить операционный контур, офисную команду, клиентский формат и сервисные функции в одной городской локации.</p>
             </div>
             <div class="nkr-kpi-grid">
-              ${mitinoKpis.map(([value, label]) => `<article class="nkr-glass-card reveal"><strong>${value}</strong><span>${label}</span></article>`).join("")}
+              ${mitinoKpis.map(([value, label, icon]) => `
+                <article class="nkr-glass-card mitino-kpi-card reveal">
+                  <span class="mitino-kpi-icon" aria-hidden="true"><img src="${icon}" alt=""></span>
+                  <span class="mitino-kpi-copy"><strong>${value}</strong><span>${label}</span></span>
+                </article>
+              `).join("")}
             </div>
           </section>
 
