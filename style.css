@@ -4649,6 +4649,237 @@ body.is-leaving #main {
   background: rgba(15, 23, 42, 0.16);
 }
 
+.nekrasovka-page #nkr-terms .nkr-commercial-grid {
+  grid-template-columns: 1fr;
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card {
+  border-color: rgba(8, 10, 15, 0.14);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.nekrasovka-page .nkr-rent-board {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.58fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.nekrasovka-page .nkr-rent-hero {
+  padding: 20px;
+  border: 1px solid rgba(173, 69, 47, 0.42);
+  border-top: 10px solid #a02a2f;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(173, 69, 47, 0.07), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0.5));
+}
+
+.nekrasovka-page .nkr-rent-hero .nkr-price-row {
+  margin: 0;
+}
+
+.nekrasovka-page .nkr-rent-hero .nkr-price-row strong {
+  color: #ff2a2f;
+}
+
+.nekrasovka-page .nkr-rent-hero-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding-top: 18px;
+  color: var(--muted-dark);
+}
+
+.nekrasovka-page .nkr-rent-hero-meta strong {
+  color: var(--ink);
+}
+
+.nekrasovka-page .nkr-rent-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.nekrasovka-page .nkr-rent-tiles div {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 112px;
+  padding: 18px;
+  background: rgba(232, 237, 245, 0.78);
+}
+
+.nekrasovka-page .nkr-rent-tiles span {
+  color: var(--muted-dark);
+  font-size: 12px;
+}
+
+.nekrasovka-page .nkr-rent-tiles strong {
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.05;
+  font-weight: 400;
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) {
+  border-top: 12px solid var(--ink);
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) .nkr-mini-table {
+  border: 0;
+  border-radius: 0;
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) .nkr-mini-table > div {
+  grid-template-columns: 1fr 1fr 0.8fr 0.8fr 1.22fr;
+  border-bottom-color: rgba(8, 10, 15, 0.14);
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) .nkr-mini-table > div:first-child {
+  background: transparent;
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) .nkr-mini-table span {
+  border-right: 0;
+}
+
+.nekrasovka-page #nkr-terms .nkr-commercial-card:nth-child(2) .nkr-mini-table > div:not(:first-child) span:last-child {
+  display: inline-grid;
+  align-self: center;
+  justify-self: start;
+  min-width: 220px;
+  background: rgba(255, 42, 47, 0.06);
+  color: #ff2a2f;
+  font-weight: 600;
+}
+
+.nekrasovka-page .nkr-roadmap--timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+  margin: 34px 0 36px;
+}
+
+.nekrasovka-page .nkr-roadmap--timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 53px;
+  height: 2px;
+  background: rgba(8, 10, 15, 0.18);
+}
+
+.nekrasovka-page .nkr-roadmap--timeline .nkr-roadmap-item {
+  position: relative;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  text-align: center;
+}
+
+.nekrasovka-page .nkr-roadmap--timeline .nkr-roadmap-item span {
+  width: 22px;
+  height: 22px;
+  justify-self: center;
+  border-radius: 50%;
+  background: var(--ink);
+  z-index: 1;
+}
+
+.nekrasovka-page .nkr-roadmap--timeline .nkr-roadmap-item:nth-child(2) span {
+  background: #ff2a2f;
+}
+
+.nekrasovka-page .nkr-roadmap--timeline .nkr-roadmap-item p {
+  display: none;
+}
+
+.nekrasovka-page .nkr-dynamic-card {
+  min-height: 520px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(8, 10, 15, 0.14);
+}
+
+.nekrasovka-page .nkr-dynamic-chart {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: 18px;
+  min-height: 400px;
+  padding: 34px 0 10px;
+  border-bottom: 2px solid rgba(8, 10, 15, 0.18);
+  background:
+    linear-gradient(rgba(8,10,15,0.06), rgba(8,10,15,0.06)) 0 26% / 100% 1px no-repeat,
+    linear-gradient(rgba(8,10,15,0.06), rgba(8,10,15,0.06)) 0 52% / 100% 1px no-repeat,
+    linear-gradient(rgba(8,10,15,0.06), rgba(8,10,15,0.06)) 0 78% / 100% 1px no-repeat;
+}
+
+.nekrasovka-page .nkr-dynamic-bar {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  height: 360px;
+  align-items: end;
+  text-align: center;
+}
+
+.nekrasovka-page .nkr-dynamic-value {
+  display: grid;
+  gap: 3px;
+}
+
+.nekrasovka-page .nkr-dynamic-value strong {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+
+.nekrasovka-page .nkr-dynamic-value em {
+  color: var(--muted-dark);
+  font-style: normal;
+  opacity: 1;
+}
+
+.nekrasovka-page .nkr-dynamic-value em.is-growth {
+  color: #ff2a2f;
+}
+
+.nekrasovka-page .nkr-dynamic-bar i {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--level);
+  min-height: 220px;
+  background: var(--ink);
+}
+
+.nekrasovka-page .nkr-dynamic-bar i::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 100%;
+  height: calc(100% - 220px);
+  min-height: 0;
+  background: rgba(173, 69, 47, 0.11);
+}
+
+.nekrasovka-page .nkr-dynamics-note {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1.35fr 0.8fr;
+  gap: 16px;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+}
+
+.nekrasovka-page .nkr-dynamics-note strong:first-child {
+  color: #ff2a2f;
+}
+
 @media (max-width: 1080px) {
   .nekrasovka-page .nkr-composition-grid {
     grid-template-columns: 1fr;
@@ -4656,6 +4887,15 @@ body.is-leaving #main {
 
   .nekrasovka-page .nkr-sale-top {
     grid-template-columns: 1fr;
+  }
+
+  .nekrasovka-page .nkr-rent-board,
+  .nekrasovka-page .nkr-dynamics-note {
+    grid-template-columns: 1fr;
+  }
+
+  .nekrasovka-page .nkr-rent-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -4672,6 +4912,31 @@ body.is-leaving #main {
   .nekrasovka-page .nkr-sale-panel-metrics,
   .nekrasovka-page .nkr-sale-panel-tags {
     grid-template-columns: 1fr;
+  }
+
+  .nekrasovka-page .nkr-rent-tiles,
+  .nekrasovka-page .nkr-roadmap--timeline,
+  .nekrasovka-page .nkr-dynamic-chart {
+    grid-template-columns: 1fr;
+  }
+
+  .nekrasovka-page .nkr-roadmap--timeline::before {
+    display: none;
+  }
+
+  .nekrasovka-page .nkr-dynamic-card {
+    min-height: 0;
+  }
+
+  .nekrasovka-page .nkr-dynamic-chart,
+  .nekrasovka-page .nkr-dynamic-bar {
+    min-height: 0;
+    height: auto;
+  }
+
+  .nekrasovka-page .nkr-dynamic-bar i {
+    height: 160px;
+    min-height: 0;
   }
 }
 

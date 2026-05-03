@@ -1375,6 +1375,21 @@
       const saleTotalRub = 1101400000;
       const toPaymentNumber = (value) => Number(String(value).replace(/[^\d]/g, "")) || 0;
       const toPaymentProgress = (value) => `${Math.min(100, (toPaymentNumber(value) / saleTotalRub) * 100).toFixed(2)}%`;
+      const toDynamicsLevel = (rows, value) => {
+        const values = rows.map((row) => toPaymentNumber(row[1]));
+        const max = Math.max(...values, 1);
+        return `${((toPaymentNumber(value) / max) * 100).toFixed(2)}%`;
+      };
+      const rentTerms = [
+        ["OPEX", "3 000 ₽/м²/год"],
+        ["НДС", "22% сверху"],
+        ["Коммунальные", "по факту"],
+        ["Модель", "open book"],
+        ["Индексация", "7% / CPI"],
+        ["Fit-out", "2–6 мес."],
+        ["Pre-lease", "скидка 5–7%"],
+        ["Срок по блокам", "3–5 лет"]
+      ];
 
       const uniqueOffers = [
         {
@@ -1568,11 +1583,11 @@
               <h2>Ожидаемая динамика стоимости</h2>
               <p>Коммерческая модель привязана к стадиям проекта: от текущего этапа и получения РНС до активной стройки, готовности контура и ввода в эксплуатацию.</p>
             </div>
-            <div class="nkr-roadmap">
+            <div class="nkr-roadmap nkr-roadmap--timeline">
               ${nkrRoadmap.map(([date, title, note], index) => `
                 <article class="nkr-roadmap-item reveal">
-                  <span>0${index + 1}</span>
                   <strong>${date}</strong>
+                  <span aria-hidden="true"></span>
                   <h3>${title}</h3>
                   <p>${note}</p>
                 </article>
@@ -1583,12 +1598,19 @@
                 <article class="nkr-dynamic-card reveal">
                   <p class="eyebrow">${title}</p>
                   <h3>${subtitle}</h3>
-                  <div class="nkr-dynamic-list">
-                    ${rows.map(([date, value, growth], index) => `<div><span>${date}</span><strong>${value}</strong><em>${growth}</em><i style="--level:${(index + 1) * 19}%"></i></div>`).join("")}
+                  <div class="nkr-dynamic-chart">
+                    ${rows.map(([date, value, growth], index) => `
+                      <div class="nkr-dynamic-bar" style="--level:${toDynamicsLevel(rows, value)}">
+                        <span class="nkr-dynamic-value"><strong>${value}</strong><em class="${String(growth).startsWith("+") ? "is-growth" : ""}">${growth}</em></span>
+                        <i aria-hidden="true"></i>
+                        <span>${date}</span>
+                      </div>
+                    `).join("")}
                   </div>
                 </article>
               `).join("")}
             </div>
+            <div class="nkr-dynamics-note reveal"><strong>РНС — июнь 2026</strong><span>аренда: 15 500 → 19 375 ₽/м²/год</span><span>продажа: 200 000 → 280 000 ₽/м² без НДС</span><strong>только целиком</strong></div>
           </section>
 
           <section class="nkr-section" id="nkr-terms">
@@ -1600,15 +1622,16 @@
             <div class="nkr-commercial-grid">
               <article class="nkr-commercial-card reveal">
                 <p class="eyebrow">Аренда</p>
-                <h3>Целиком здание</h3>
-                <div class="nkr-price-row"><strong>5 507 м²</strong><span>15 500 ₽/м²/год</span></div>
-                <ul class="terms-list">
-                  <li>срок аренды здания целиком: 5–7 лет</li>
-                  <li>обеспечительный платеж: 2 месяца</li>
-                  <li>OPEX: 3 000 ₽/м²/год</li>
-                  <li>НДС: 22% сверху, коммунальные платежи по факту</li>
-                  <li>pre-lease скидка 5–7%, fit-out 2–6 месяцев</li>
-                </ul>
+                <div class="nkr-rent-board">
+                  <div class="nkr-rent-hero">
+                    <h3>Целиком здание</h3>
+                    <div class="nkr-price-row"><strong>5 507 м²</strong><span>15 500 ₽/м²/год</span></div>
+                    <div class="nkr-rent-hero-meta"><strong>Срок аренды 5–7 лет</strong><span>Обеспечительный платёж 2 месяца</span></div>
+                  </div>
+                  <div class="nkr-rent-tiles">
+                    ${rentTerms.map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("")}
+                  </div>
+                </div>
               </article>
               <article class="nkr-commercial-card reveal">
                 <p class="eyebrow">Поэтажная аренда</p>
