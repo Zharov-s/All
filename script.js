@@ -1080,6 +1080,17 @@
 
       const yandexMapUrl = "https://yandex.ru/map-widget/v1/?ll=37.340891%2C55.849145&z=16&l=map&pt=37.340891,55.849145,pm2rdm";
 
+      const carouselItems = (() => {
+        const ns = Array.from({length: 10}, (_, i) => String(i + 1).padStart(2, "0"));
+        // 1 start clone + 10 real + 3 end clones (for seamless loop with 3 visible items)
+        const all = [ns[9], ...ns, ns[0], ns[1], ns[2]];
+        return all.map((n, idx) => {
+          const isClone = idx === 0 || idx > 10;
+          const ri = idx === 0 ? 9 : (idx <= 10 ? idx - 1 : idx - 11);
+          return `<div class="mc-item" data-ci="${ri}"${isClone ? ' aria-hidden="true"' : ""}><img src="assets/Carusel/${n}.jpg" alt="Митино — фото ${ri + 1}" draggable="false" loading="lazy"></div>`;
+        }).join("");
+      })();
+
       target.innerHTML = `
         <section class="object-hero section-dark mitino-hero">
           <div class="object-hero-media"><img src="${object.image}" alt="${object.title}" fetchpriority="high"></div>
@@ -1107,6 +1118,32 @@
             <a href="#mitino-terms">Условия</a>
             <a href="#mitino-lots">Лоты</a>
           </nav>
+
+          <section class="nkr-section mitino-gallery-section">
+            <div class="section-head">
+              <p class="eyebrow">Галерея</p>
+              <h2>Объект в финальной стадии строительства</h2>
+              <p>Текущее состояние промтехнопарка на Барышиха 37А. Ввод в эксплуатацию запланирован на III квартал 2026 года.</p>
+            </div>
+            <div class="mc-root" id="mc-root">
+              <div class="mc-track" id="mc-track">
+                ${carouselItems}
+              </div>
+              <button class="mc-arrow mc-arrow--prev" id="mc-prev" aria-label="Предыдущий слайд">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8L10 13"/></svg>
+              </button>
+              <button class="mc-arrow mc-arrow--next" id="mc-next" aria-label="Следующий слайд">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3L11 8L6 13"/></svg>
+              </button>
+              <div class="mc-hud">
+                <span class="mc-count" id="mc-count">01 / 10</span>
+                <div class="mc-dots" id="mc-dots">
+                  ${Array.from({length: 10}, (_, i) => `<button class="mc-dot${i === 0 ? " is-active" : ""}" aria-label="Слайд ${i + 1}"></button>`).join("")}
+                </div>
+              </div>
+              <div class="mc-progress" id="mc-progress"></div>
+            </div>
+          </section>
 
           <section class="nkr-section mitino-overview" id="mitino-about">
             <div class="section-head">
@@ -1278,6 +1315,7 @@
           </section>
         </section>
       `;
+      initMitinoCarousel();
       return;
     }
 
@@ -2506,6 +2544,234 @@
       event.preventDefault();
       document.body.classList.add("is-leaving");
       window.setTimeout(() => { window.location.href = href; }, 180);
+    });
+  }
+
+  function initMitinoCarousel() {
+    var root = document.getElementById("mc-root");
+    var track = document.getElementById("mc-track");
+    if (!root || !track) return;
+
+    var REAL = 10;
+    var VISIBLE = 3; // images shown at once
+    // items[0]=lastClone, items[1..10]=real, items[11..13]=firstClones
+    var items = Array.from(track.querySelectorAll(".mc-item"));
+    var dots = Array.from(document.querySelectorAll("#mc-dots .mc-dot"));
+    var counter = document.getElementById("mc-count");
+    var progress = document.getElementById("mc-progress");
+    var prevBtn = document.getElementById("mc-prev");
+    var nextBtn = document.getElementById("mc-next");
+
+    var current = 1;
+    var isTransitioning = false;
+    var isDragging = false;
+    var didDrag = false;
+    var dragStartX = 0;
+    var dragDelta = 0;
+    var autoTimer = null;
+    var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    var GAP = 12;
+    function getItemW() { return (root.offsetWidth - (VISIBLE - 1) * GAP) / VISIBLE; }
+    function getStep() { return getItemW() + GAP; }
+
+    function realIndex(c) {
+      return ((c - 1) % REAL + REAL) % REAL;
+    }
+
+    function updateHUD(c) {
+      var ri = realIndex(c);
+      if (counter) counter.textContent = pad(ri + 1) + " ∕ " + pad(REAL);
+      dots.forEach(function(dot, i) { dot.classList.toggle("is-active", i === ri); });
+    }
+
+    function goTo(c, animated) {
+      track.classList.toggle("no-transition", animated === false);
+      if (animated !== false) isTransitioning = true;
+      current = c;
+      track.style.transform = "translateX(" + (-c * getStep()) + "px)";
+      updateHUD(c);
+    }
+
+    window.addEventListener("resize", function() { goTo(current, false); });
+
+    track.addEventListener("transitionend", function(e) {
+      if (e.propertyName !== "transform") return;
+      isTransitioning = false;
+      // Infinite loop: silently jump from clone to real item
+      if (current === 0) {
+        goTo(REAL, false);
+      } else if (current === REAL + 1) {
+        goTo(1, false);
+      }
+      // Retrigger Ken Burns on newly active item after silent jump
+      items.forEach(function(item, i) { item.classList.toggle("is-active", i === current); });
+    });
+
+    function next() {
+      if (isTransitioning) return;
+      goTo(current + 1, true);
+      resetProgress();
+    }
+    function prev() {
+      if (isTransitioning) return;
+      goTo(current - 1, true);
+      resetProgress();
+    }
+
+    if (prevBtn) prevBtn.addEventListener("click", function() { stopAuto(); prev(); startAuto(); });
+    if (nextBtn) nextBtn.addEventListener("click", function() { stopAuto(); next(); startAuto(); });
+
+    dots.forEach(function(dot, i) {
+      dot.addEventListener("click", function() {
+        if (isTransitioning) return;
+        stopAuto();
+        goTo(i + 1, true);
+        resetProgress();
+        startAuto();
+      });
+    });
+
+    // Drag / swipe
+    function getX(e) { return e.touches ? e.touches[0].clientX : e.clientX; }
+
+    root.addEventListener("mousedown", function(e) {
+      if (e.button !== 0) return;
+      isDragging = true;
+      didDrag = false;
+      dragStartX = getX(e);
+      dragDelta = 0;
+      stopAuto();
+      root.classList.add("is-dragging");
+    });
+    window.addEventListener("mousemove", function(e) {
+      if (!isDragging) return;
+      dragDelta = getX(e) - dragStartX;
+      if (Math.abs(dragDelta) > 5) didDrag = true;
+    });
+    window.addEventListener("mouseup", function() {
+      if (!isDragging) return;
+      isDragging = false;
+      root.classList.remove("is-dragging");
+      if (Math.abs(dragDelta) > getStep() * 0.2) { dragDelta < 0 ? next() : prev(); }
+      startAuto();
+    });
+
+    root.addEventListener("touchstart", function(e) {
+      isDragging = true;
+      didDrag = false;
+      dragStartX = e.touches[0].clientX;
+      dragDelta = 0;
+      stopAuto();
+    }, { passive: true });
+    root.addEventListener("touchmove", function(e) {
+      if (!isDragging) return;
+      dragDelta = e.touches[0].clientX - dragStartX;
+      if (Math.abs(dragDelta) > 5) didDrag = true;
+    }, { passive: true });
+    root.addEventListener("touchend", function() {
+      if (!isDragging) return;
+      isDragging = false;
+      if (Math.abs(dragDelta) > getStep() * 0.15) { dragDelta < 0 ? next() : prev(); }
+      startAuto();
+    });
+
+    // Pause auto on hover
+    root.addEventListener("mouseenter", stopAuto);
+    root.addEventListener("mouseleave", startAuto);
+
+    // Auto-advance every 5s
+    function startAuto() {
+      if (prefersReduced) return;
+      stopAuto();
+      autoTimer = setInterval(next, 5000);
+      resetProgress();
+    }
+    function stopAuto() {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      if (progress) { progress.style.transition = "none"; progress.style.width = "0%"; }
+    }
+    function resetProgress() {
+      if (!progress || prefersReduced) return;
+      progress.style.transition = "none";
+      progress.style.width = "0%";
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          progress.style.transition = "width 5s linear";
+          progress.style.width = "100%";
+        });
+      });
+    }
+
+    // Click → modal
+    items.forEach(function(item) {
+      item.addEventListener("click", function() {
+        if (didDrag) return;
+        openModal(Number(item.dataset.ci || 0));
+      });
+    });
+
+    // Init
+    goTo(1, false);
+    startAuto();
+
+    // ── Modal ──────────────────────────────────────────────
+    var modal = document.createElement("div");
+    modal.className = "mc-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-label", "Просмотр фотографии");
+    modal.innerHTML = [
+      '<img class="mc-modal-img" src="" alt="">',
+      '<button class="mc-modal-close" aria-label="Закрыть">&#10005;</button>',
+      '<button class="mc-modal-nav mc-modal-nav--prev" aria-label="Предыдущая фотография">',
+      '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8L10 13"/></svg>',
+      '</button>',
+      '<button class="mc-modal-nav mc-modal-nav--next" aria-label="Следующая фотография">',
+      '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3L11 8L6 13"/></svg>',
+      '</button>',
+      '<p class="mc-modal-footer" id="mc-modal-foot">01 / 10</p>'
+    ].join("");
+    document.body.appendChild(modal);
+
+    var modalImg = modal.querySelector(".mc-modal-img");
+    var modalClose = modal.querySelector(".mc-modal-close");
+    var modalNavPrev = modal.querySelector(".mc-modal-nav--prev");
+    var modalNavNext = modal.querySelector(".mc-modal-nav--next");
+    var modalFoot = modal.querySelector(".mc-modal-footer");
+    var modalIdx = 0;
+
+    function showModalSlide() {
+      modalImg.src = "assets/Carusel/" + pad(modalIdx + 1) + ".jpg";
+      modalImg.alt = "Митино — фото " + (modalIdx + 1);
+      if (modalFoot) modalFoot.textContent = pad(modalIdx + 1) + " ∕ " + pad(REAL);
+    }
+    function openModal(ri) {
+      modalIdx = ri;
+      showModalSlide();
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      modalClose.focus();
+      stopAuto();
+    }
+    function closeModal() {
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+      startAuto();
+    }
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", function(e) { if (e.target === modal) closeModal(); });
+    modalNavPrev.addEventListener("click", function() { modalIdx = (modalIdx - 1 + REAL) % REAL; showModalSlide(); });
+    modalNavNext.addEventListener("click", function() { modalIdx = (modalIdx + 1) % REAL; showModalSlide(); });
+    document.addEventListener("keydown", function(e) {
+      if (!modal.classList.contains("is-open")) return;
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") { modalIdx = (modalIdx - 1 + REAL) % REAL; showModalSlide(); }
+      if (e.key === "ArrowRight") { modalIdx = (modalIdx + 1) % REAL; showModalSlide(); }
     });
   }
 
