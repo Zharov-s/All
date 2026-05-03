@@ -1372,6 +1372,9 @@
         ["Равный платеж 3", "IV кв. 2027", "16,25%", "178 977 500", "922 422 500", "178 977 500"],
         ["Равный платеж 4 / закрытие", "I кв. 2028", "16,25%", "178 977 500", "1 101 400 000", "0"]
       ];
+      const saleTotalRub = 1101400000;
+      const toPaymentNumber = (value) => Number(String(value).replace(/[^\d]/g, "")) || 0;
+      const toPaymentProgress = (value) => `${Math.min(100, (toPaymentNumber(value) / saleTotalRub) * 100).toFixed(2)}%`;
 
       const uniqueOffers = [
         {
@@ -1618,14 +1621,43 @@
               <article class="nkr-commercial-card nkr-commercial-card--wide reveal">
                 <p class="eyebrow">Продажа</p>
                 <h3>Покупка только здания целиком</h3>
-                <div class="nkr-sale-summary">
-                  <div><span>Цена продажи без НДС</span><strong>1 101 400 000 ₽</strong></div>
-                  <div><span>Цена за м²</span><strong>200 000 ₽/м²</strong></div>
-                  <div><span>Сценарий</span><strong>5% ПДКП → 30% ДКПБВ → 4 × 16,25%</strong></div>
-                </div>
-                <div class="nkr-payment-table">
-                  <div><span>Этап</span><span>Дата</span><span>Доля</span><span>Платеж, ₽</span><span>Оплачено</span><span>Остаток</span></div>
-                  ${paymentPlan.map((row) => `<div>${row.map((cell) => `<span>${cell}</span>`).join("")}</div>`).join("")}
+                <div class="nkr-sale-board">
+                  <div class="nkr-sale-top">
+                    <div class="nkr-sale-panel nkr-sale-panel--object">
+                      <span>Объект</span>
+                      <strong>Промышленный парк в Некрасовке</strong>
+                      <div class="nkr-sale-panel-metrics">
+                        <div><span>Площадь здания</span><strong>5 507 м²</strong></div>
+                        <div><span>Цена продажи</span><strong>200 000 ₽/м²</strong></div>
+                      </div>
+                      <div class="nkr-sale-panel-tags"><span>РНС — июнь 2026</span><span>Ввод IV кв. 2027</span></div>
+                    </div>
+                    <div class="nkr-sale-panel nkr-sale-panel--scenario">
+                      <span>Цена продажи, ₽/м² без НДС</span>
+                      <strong>1 101 400 000</strong>
+                      <div class="nkr-sale-scenario">
+                        <span>Сценарий</span>
+                        <p>5% по ПДКП; после получения РНС — заключение ДКПБВ и 30%; далее — 4 равных платежа до закрытия сделки.</p>
+                        <div class="nkr-sale-scenario-steps"><span>5%</span><span>30%</span><span>4 × 16,25%</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="nkr-payment-shell">
+                    <div class="nkr-payment-heading"><strong>График платежей</strong><span>Все суммы указаны без НДС</span></div>
+                    <div class="nkr-payment-table nkr-payment-table--sale">
+                      <div><span>Этап</span><span>Дата</span><span>Доля</span><span>Платеж, ₽</span><span>Оплачено накопленным итогом, ₽</span><span>Остаток к оплате, ₽</span></div>
+                      ${paymentPlan.map(([stage, date, share, payment, paid, rest], index) => `
+                        <div class="${share === "—" ? "is-muted" : ""}">
+                          <span><i class="${index < 3 ? "is-red" : ""}" aria-hidden="true"></i>${stage}</span>
+                          <span>${date}</span>
+                          <span>${share === "—" ? "—" : `<b>${share}</b>`}</span>
+                          <span class="nkr-payment-value">${payment}<em style="--bar:${toPaymentProgress(payment)}"></em></span>
+                          <span class="nkr-payment-value">${paid}<em class="is-paid" style="--bar:${toPaymentProgress(paid)}"></em></span>
+                          <span class="nkr-payment-value">${rest}<em class="is-rest" style="--bar:${toPaymentProgress(rest)}"></em></span>
+                        </div>
+                      `).join("")}
+                    </div>
+                  </div>
                 </div>
               </article>
             </div>
