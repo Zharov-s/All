@@ -397,6 +397,17 @@ body[data-page="object"] .site-header {
   overflow: hidden;
 }
 
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3, 8, 20, 0.23) 0%, rgba(3, 8, 20, 0.12) 46%, rgba(3, 8, 20, 0.22) 100%),
+    linear-gradient(180deg, rgba(3, 8, 20, 0.04) 0%, rgba(3, 8, 20, 0.22) 100%);
+}
+
 .hero-media,
 .hero-overlay,
 .hero-image {
@@ -1896,6 +1907,17 @@ body[data-page="object"] .site-header {
   align-items: end;
   padding: 170px clamp(18px, 6vw, 92px) 76px;
   overflow: hidden;
+}
+
+.object-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3, 8, 20, 0.44), rgba(3, 8, 20, 0.14) 58%, rgba(3, 8, 20, 0.39)),
+    linear-gradient(0deg, rgba(3, 8, 20, 0.41), rgba(3, 8, 20, 0.04) 58%);
 }
 
 .object-hero-media {
