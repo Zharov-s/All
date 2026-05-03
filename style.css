@@ -6567,9 +6567,7 @@ body.is-leaving {
 }
 
 .metro-icon circle {
-  fill: rgba(255,255,255,0.72);
-  stroke: currentColor;
-  stroke-width: 2;
+  display: none;
 }
 
 .metro-icon path {
