@@ -4275,6 +4275,183 @@ body.is-leaving #main {
   display: none;
 }
 
+.nekrasovka-page #nkr-composition .section-head {
+  max-width: 920px;
+}
+
+.nekrasovka-page .nkr-composition-grid {
+  grid-template-columns: minmax(380px, 0.58fr) minmax(0, 1.42fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.nekrasovka-page .nkr-breakdown {
+  min-height: 100%;
+  padding: clamp(28px, 3vw, 44px);
+  border-color: rgba(173, 69, 47, 0.18);
+  background:
+    radial-gradient(circle at 16% 8%, rgba(173, 69, 47, 0.07), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.58));
+  backdrop-filter: blur(18px);
+}
+
+.nekrasovka-page .nkr-breakdown-total {
+  position: relative;
+  gap: 18px;
+  padding-bottom: 34px;
+  margin-bottom: 22px;
+  border-bottom: 0;
+}
+
+.nekrasovka-page .nkr-breakdown-total::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 16px;
+  background: linear-gradient(90deg, rgba(173, 69, 47, 0.16), rgba(173, 69, 47, 0.28), rgba(173, 69, 47, 0.16));
+}
+
+.nekrasovka-page .nkr-breakdown-total::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 27px;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid var(--accent-deep);
+}
+
+.nekrasovka-page .nkr-breakdown-total span,
+.nekrasovka-page .nkr-plan-card-head span {
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: rgba(8, 10, 15, 0.56);
+}
+
+.nekrasovka-page .nkr-breakdown-total strong {
+  font-size: clamp(52px, 5.1vw, 78px);
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.nekrasovka-page .nkr-breakdown-row {
+  gap: 18px;
+  padding: 18px 0 28px;
+}
+
+.nekrasovka-page .nkr-breakdown-row + .nkr-breakdown-row {
+  border-top-color: rgba(173, 69, 47, 0.12);
+}
+
+.nekrasovka-page .nkr-breakdown-row strong {
+  font-size: clamp(22px, 1.8vw, 30px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+}
+
+.nekrasovka-page .nkr-breakdown-row span {
+  font-size: 16px;
+}
+
+.nekrasovka-page .nkr-breakdown-row em {
+  align-self: start;
+  padding-top: 8px;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+.nekrasovka-page .nkr-breakdown-row i {
+  bottom: 12px;
+  height: 5px;
+  background: rgba(8, 10, 15, 0.08);
+}
+
+.nekrasovka-page .nkr-breakdown-row i::before {
+  background: linear-gradient(90deg, var(--accent-deep), rgba(173, 69, 47, 0.82));
+}
+
+.nekrasovka-page .nkr-plan-grid {
+  gap: 20px;
+}
+
+.nekrasovka-page .nkr-plan-card {
+  min-height: 322px;
+  padding: clamp(28px, 3vw, 42px);
+  gap: 28px;
+}
+
+.nekrasovka-page .nkr-plan-card::before {
+  background:
+    radial-gradient(circle at 82% 0%, rgba(173, 69, 47, 0.045), transparent 38%),
+    linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+
+.nekrasovka-page .nkr-plan-card-top {
+  gap: 24px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(173, 69, 47, 0.14);
+}
+
+.nekrasovka-page .nkr-plan-card-head {
+  gap: 18px;
+}
+
+.nekrasovka-page .nkr-plan-card-head strong {
+  font-size: clamp(42px, 4vw, 66px);
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.nekrasovka-page .nkr-plan-card-copy {
+  gap: 16px;
+}
+
+.nekrasovka-page .nkr-plan-card-copy b {
+  color: var(--ink);
+  font-size: 16px;
+  letter-spacing: 0.22em;
+}
+
+.nekrasovka-page .nkr-plan-card-copy p {
+  max-width: 42ch;
+  font-size: clamp(17px, 1.25vw, 20px);
+  line-height: 1.45;
+}
+
+.nekrasovka-page .nkr-plan-chip-row {
+  gap: 10px;
+  padding-right: 0;
+}
+
+.nekrasovka-page .nkr-plan-chip {
+  min-height: 42px;
+  padding: 9px 18px;
+  border-color: rgba(173, 69, 47, 0.14);
+  background: rgba(255, 255, 255, 0.66);
+  font-size: 15px;
+}
+
+@media (max-width: 1080px) {
+  .nekrasovka-page .nkr-composition-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .nekrasovka-page .nkr-breakdown,
+  .nekrasovka-page .nkr-plan-card {
+    padding: 24px;
+  }
+
+  .nekrasovka-page .nkr-plan-card {
+    min-height: 260px;
+  }
+}
+
 /* === Palette refinement · ABCENTRUM === */
 :root {
   --ink: #121110;
