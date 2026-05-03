@@ -3966,6 +3966,19 @@ body.is-leaving #main {
   --grekova-accent-strong: #b62317;
 }
 
+.grekova-page .nkr-glass-card,
+.grekova-page .nkr-level-card {
+  border-color: rgba(182, 35, 23, 0.16);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(182, 35, 23, 0.07), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.50));
+}
+
+.grekova-page .nkr-glass-card strong {
+  font-size: clamp(20px, 2.2vw, 32px);
+  letter-spacing: -0.04em;
+}
+
 .grekova-hero .object-hero-content h1 {
   max-width: 1040px;
 }
