@@ -107,7 +107,7 @@
       </div>
       <div><h3>Навигация</h3><a href="index.html">Главная</a><a href="index.html#objects">Объекты</a><a href="index.html#map">Карта</a><a href="lots.html">Каталог</a><a href="index.html#trust">Документы</a><a href="lots.html?deal=buy&object=nekrasovka,grekova">Покупка</a><a href="index.html#contacts">Контакты</a></div>
       <div><h3>Объекты</h3><a href="mitino.html">Промтехнопарк «Митино»</a><a href="nekrasovka.html">Промтехнопарк «Некрасовка»</a><a href="grekova.html">Медицинский центр «Грекова»</a></div>
-      <div><h3>Каталог</h3><a href="lots.html">Все лоты</a><a href="lots.html?deal=rent">Аренда</a><a href="lots.html?deal=buy&object=nekrasovka,grekova">Покупка</a><a href="lots.html?favorites=1">Избранное</a></div>
+      <div><h3>Каталог</h3><a href="lots.html">Все помещения</a><a href="lots.html?deal=rent">Аренда</a><a href="lots.html?deal=buy&object=nekrasovka,grekova">Покупка</a><a href="lots.html?favorites=1">Избранное</a></div>
       <div><h3>Контакты</h3><a href="${data.contacts.phoneHref}">${data.contacts.phone}</a><a href="${data.contacts.emailHref}">${data.contacts.email}</a><a href="${data.contacts.telegramHref}">${data.contacts.telegram}</a></div>
     `;
   }
@@ -324,7 +324,7 @@
         </div>
         <div class="object-actions">
           <a class="btn btn-light" href="${object.page}">Подробнее</a>
-          <a class="btn btn-ghost" href="lots.html?deal=rent&object=${object.id}">${object.id === "mitino" ? "Лоты в аренду" : "Смотреть лоты"}</a>
+          <a class="btn btn-ghost" href="lots.html?deal=rent&object=${object.id}">Смотреть помещения</a>
           <a class="btn btn-ghost" href="${getRouteUrl(object.id)}" target="_blank" rel="noopener noreferrer">Маршрут</a>
         </div>
       </article>
@@ -537,8 +537,8 @@
       ["Выбрать сценарий", "Определите сделку: аренда помещения или покупка здания целиком."],
       ["Отфильтровать каталог", "Выберите объект, формат, площадь, этаж, цену или ставку, статус и назначение."],
       ["Сравнить предложения", "Сопоставьте площадь, этаж, потолки, состояние передачи, назначение и условия."],
-      ["Открыть карточку лота", "Посмотрите подробности, планировку, сценарии использования и условия сделки."],
-      ["Сохранить интересное", "Добавьте лоты в избранное, чтобы вернуться к ним после сравнения."],
+      ["Открыть карточку помещения", "Посмотрите подробности, планировку, сценарии использования и условия сделки."],
+      ["Сохранить интересное", "Добавьте помещения в избранное, чтобы вернуться к ним после сравнения."],
       ["Отправить заявку", "Запросите просмотр, подбор или инвестиционное предложение через форму связи."]
     ];
     const target = document.querySelector("[data-process]");
@@ -555,7 +555,7 @@
       ["Как проходит сделка купли-продажи?", "Через ПДКП (предварительный договор) или ДКПБВ (договор купли-продажи будущей вещи). Пакет документов высылается после заявки."]
     ];
     const siteFaq = [
-      ["Как работает избранное?", "ID лотов сохраняются в браузере. Их можно открыть в каталоге, сравнить и передать менеджеру в заявке."],
+      ["Как работает избранное?", "ID помещений сохраняются в браузере. Их можно открыть в каталоге, сравнить и передать менеджеру в заявке."],
       ["Почему Митино не отображается при покупке?", "Митино сейчас доступен только в аренду, поэтому в режиме покупки показываются Некрасовка и Грекова."]
     ];
     const target = document.querySelector("[data-faq]");
@@ -868,11 +868,11 @@
     target.innerHTML = `
       <div>
         <strong>В избранном: ${validFavs.length}</strong>
-        <p>Сохранённые лоты можно быстро сравнить и отправить менеджеру одной подборкой.</p>
+        <p>Сохранённые помещения можно быстро сравнить и отправить менеджеру одной подборкой.</p>
       </div>
       <div class="favorite-summary-actions">
         <button class="btn btn-dark" type="button" data-show-favorites>Показать избранное</button>
-        <button class="btn btn-primary" type="button" data-open-request data-context="Подборка избранных лотов: ${validFavs.join(", ")}">Запросить подборку</button>
+        <button class="btn btn-primary" type="button" data-open-request data-context="Избранные помещения: ${validFavs.join(", ")}">Запросить подборку</button>
       </div>
       <details class="favorite-compare">
         <summary>Сравнить избранные</summary>
@@ -894,9 +894,9 @@
     if (!target) return;
     target.hidden = lots.length > 0;
     if (lots.length > 0) return;
-    if (filters.favorites) target.textContent = "В избранном пока нет лотов.";
+    if (filters.favorites) target.textContent = "В избранном пока нет помещений.";
     else if (filters.deal === "buy" && filters.object === "mitino") target.textContent = "Промтехнопарк «Митино» сейчас доступен только в аренду. Для покупки выберите Промтехнопарк «Некрасовка» или Медицинский центр «Грекова».";
-    else target.textContent = "По выбранным параметрам лоты не найдены. Сбросьте фильтр или измените запрос.";
+    else target.textContent = "По выбранным параметрам помещения не найдены. Сбросьте фильтр или измените запрос.";
   }
 
   function writeQuery() {
@@ -1056,7 +1056,7 @@
       const mitinoPhysicalLots = lots.filter((lot) => lot.deal === "rent");
       const mitinoCombined = {
         title: "Производственно-офисный контур",
-        subtitle: "сценарий объединения из физических лотов · не отдельный новый лот",
+        subtitle: "сценарий объединения из существующих помещений · не отдельное новое помещение",
         area: "5 106,23 м²",
         meta: ["3 614,22 м² производственно-складские площади", "1 325,73 м² офисы", "166,28 м² зона погрузки", "1, 3 и 4 этажи"],
         rates: "18 000 руб./м² производство · 28 000 руб./м² офис"
@@ -1092,7 +1092,7 @@
             <p>Промтехнопарк на Барышиха 37А объединяет light industrial, офисы, showroom, общепит, мезонинные блоки и сценарий единого производственно-офисного контура. Объект доступен только в аренду, поэтому на странице нет ложных сценариев покупки.</p>
             <div class="hero-labels"><span>11 776,20 м²</span><span>1,5 МВт</span><span>70 м/м</span><span>III кв. 2026</span></div>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#mitino-lots">Смотреть лоты</a>
+              <a class="btn btn-primary" href="#mitino-lots">Свободные площади</a>
               <a class="btn btn-ghost" href="#mitino-combination">Сценарий объединения</a>
               <a class="btn btn-ghost" href="${getRouteUrl(object.id)}" target="_blank" rel="noopener noreferrer">Проложить маршрут</a>
               <button class="btn btn-ghost" type="button" data-open-request data-building="${object.id}" data-context="Митино · подбор помещения">Оставить заявку</button>
@@ -1108,7 +1108,7 @@
             <a href="#mitino-location">Локация</a>
             <a href="#mitino-roadmap">Ход работ</a>
             <a href="#mitino-terms">Условия</a>
-            <a href="#mitino-lots">Лоты</a>
+            <a href="#mitino-lots">Помещения</a>
           </nav>
 
           <section class="nkr-section mitino-gallery-section">
@@ -1236,7 +1236,7 @@
             <div class="section-head">
               <p class="eyebrow">Коммерческие условия</p>
               <h2>Только аренда — без сценариев покупки и без дублей</h2>
-              <p>Для Митино в каталоге и на странице оставлена только аренда. Сценарий объединения показан как способ собрать единый контур из существующих физических лотов.</p>
+              <p>Для Митино в каталоге и на странице оставлена только аренда. Сценарий объединения показан как способ собрать единый контур из существующих помещений.</p>
             </div>
             <div class="nkr-commercial-grid">
               <article class="nkr-commercial-card reveal">
@@ -1247,11 +1247,11 @@
                 </div>
               </article>
               <article class="nkr-commercial-card reveal">
-                <h3>Принцип лотов</h3>
-                <p>Физические лоты не дублируются. Производственно-офисный контур — это вариант объединения уже существующих площадей: производственной части, мезонинов, офисов и зоны погрузки.</p>
+                <h3>Структура помещений</h3>
+                <p>Помещения не дублируются. Производственно-офисный контур — это вариант объединения уже существующих площадей: производственной части, мезонинов, офисов и зоны погрузки.</p>
                 <div class="nkr-sale-summary mitino-term-summary">
                   <div><span>Сделка</span><strong>аренда</strong></div>
-                  <div><span>Лоты</span><strong>7</strong></div>
+                  <div><span>Помещений</span><strong>7</strong></div>
                   <div><span>Объединение</span><strong>5 106,23 м²</strong></div>
                 </div>
               </article>
@@ -1261,8 +1261,8 @@
           <section class="nkr-section" id="mitino-lots">
             <div class="section-head">
               <p class="eyebrow">Доступно к аренде</p>
-              <h2>7 физических лотов и один сценарий объединения</h2>
-              <p>Ниже показаны реальные физические лоты. Отдельно выделен сценарий единого контура — он не увеличивает количество площадей и не дублирует лоты.</p>
+              <h2>7 помещений и один сценарий объединения</h2>
+              <p>Ниже показаны все помещения. Отдельно выделен сценарий единого контура — он не увеличивает количество площадей и не дублирует помещения.</p>
             </div>
             <div class="nkr-offer-grid mitino-offer-grid">
               ${mitinoPhysicalLots.map((lot) => `
@@ -1301,8 +1301,8 @@
             </div>
             <div class="rule-block nkr-rule-block reveal">
               <h3>Правило сделки</h3>
-              <p>Митино работает только как арендный объект. Покупка для него не выводится, а сценарий объединения не создает дополнительный лот поверх существующих площадей.</p>
-              <div class="section-actions"><a class="btn btn-dark" href="lots.html?deal=rent&object=mitino">Открыть лоты Митино в каталоге</a><button class="btn btn-ghost" type="button" data-open-request data-building="${object.id}" data-context="Митино · подобрать площадь">Подобрать площадь</button></div>
+              <p>Митино работает только как арендный объект. Покупка для него не выводится, а сценарий объединения не создает дополнительное помещение поверх существующих площадей.</p>
+              <div class="section-actions"><a class="btn btn-dark" href="lots.html?deal=rent&object=mitino">Открыть помещения Митино в каталоге</a><button class="btn btn-ghost" type="button" data-open-request data-building="${object.id}" data-context="Митино · подобрать площадь">Подобрать площадь</button></div>
             </div>
           </section>
         </section>
@@ -1488,7 +1488,7 @@
             <a href="#nkr-location">Локация</a>
             <a href="#nkr-roadmap">Дорожная карта</a>
             <a href="#nkr-terms">Условия</a>
-            <a href="#nkr-lots">Лоты</a>
+            <a href="#nkr-lots">Помещения</a>
           </nav>
 
           <section class="nkr-section nkr-overview" id="nkr-about">
@@ -1549,7 +1549,7 @@
             <div class="section-head">
               <p class="eyebrow">Функциональный состав</p>
               <h2>Структура площадей и сценарии использования</h2>
-              <p>АБК не вынесен отдельным лотом на этой странице, чтобы не дублировать предложение второго этажа. Он показан как функциональная зона в составе объекта.</p>
+              <p>АБК не вынесен отдельным помещением на этой странице, чтобы не дублировать предложение второго этажа. Он показан как функциональная зона в составе объекта.</p>
             </div>
             <div class="nkr-composition-grid">
               <div class="nkr-breakdown reveal">
@@ -1719,7 +1719,7 @@
           <section class="nkr-section" id="nkr-lots">
             <div class="section-head">
               <p class="eyebrow">Предложения</p>
-              <h2>Лоты промтехнопарка «Некрасовка» без дублей</h2>
+              <h2>Свободные площади промтехнопарка «Некрасовка»</h2>
               <p>На странице показаны уникальные физические предложения. Для здания целиком доступны две сделки — аренда и покупка — но карточка не дублируется визуально.</p>
             </div>
             <div class="nkr-offer-grid">
@@ -1742,7 +1742,7 @@
             </div>
             <div class="rule-block nkr-rule-block reveal">
               <h3>Правило сделки</h3>
-              <p>Аренда возможна зданием целиком или по уровням. Покупка доступна только лотом NKR-SALE-01 — без продажи отдельных этажей и без создания дублей внутри страницы.</p>
+              <p>Аренда возможна зданием целиком или по уровням. Покупка доступна только целиком (NKR-SALE-01) — без продажи отдельных этажей и без дублей внутри страницы.</p>
               <div class="section-actions"><a class="btn btn-dark" href="lots.html?deal=rent&object=nekrasovka">Открыть аренду в каталоге</a><a class="btn btn-ghost" href="lots.html?deal=buy&object=nekrasovka">Открыть покупку в каталоге</a></div>
             </div>
           </section>
@@ -1841,7 +1841,7 @@
             <a href="#grekova-roadmap">График</a>
             <a href="#grekova-terms">Условия</a>
             <a href="#grekova-investment">Инвестмодель</a>
-            <a href="#grekova-lots">Лоты</a>
+            <a href="#grekova-lots">Помещения</a>
           </nav>
 
           <section class="nkr-section grekova-overview" id="grekova-about">
@@ -1880,7 +1880,7 @@
             <div class="section-head">
               <p class="eyebrow">Профиль площадей по этажам</p>
               <h2>Четыре уровня под медицинскую функцию</h2>
-              <p>Профиль этажей обновлен по планировкам. Сами планировки перенесены в карточки соответствующих лотов ниже, чтобы пользователь сразу видел схему конкретного предложения и не сравнивал этажи отдельно от лотов.</p>
+              <p>Профиль этажей обновлен по планировкам. Сами планировки перенесены в карточки соответствующих помещений ниже, чтобы пользователь сразу видел схему конкретного предложения и не сравнивал этажи отдельно от помещений.</p>
             </div>
             <div class="nkr-plan-grid grekova-floor-grid">
               ${grekovaFloors.map(([level, area, title, note]) => `
@@ -1939,7 +1939,7 @@
             <div class="section-head">
               <p class="eyebrow">Продажа / аренда</p>
               <h2>Коммерческие условия без дублей</h2>
-              <p>Аренда возможна зданием целиком или по отдельным уровням. Продажа отдельных этажей не предусмотрена: объект продается только целиком, а проект с РНС за 200 млн ₽ показан как отдельный формат сделки, а не как лот.</p>
+              <p>Аренда возможна зданием целиком или по отдельным уровням. Продажа отдельных этажей не предусмотрена: объект продается только целиком, а проект с РНС за 200 млн ₽ показан как отдельный формат сделки.</p>
             </div>
             <div class="nkr-commercial-grid">
               <article class="nkr-commercial-card reveal">
@@ -1958,7 +1958,7 @@
               <article class="nkr-commercial-card reveal">
                 <p class="eyebrow">Проект с РНС</p>
                 <h3>200 млн ₽</h3>
-                <p>Отдельный формат предложения. Не добавлен в каталог как лот, чтобы не дублировать продажу здания целиком.</p>
+                <p>Отдельный формат предложения. Не добавлен в каталог как помещение, чтобы не дублировать продажу здания целиком.</p>
                 <ul class="detail-list">
                   <li>основной формат — продажа объекта целиком</li>
                   <li>проект с РНС — отдельный сценарий сделки</li>
@@ -2002,9 +2002,9 @@
 
           <section class="nkr-section" id="grekova-lots">
             <div class="section-head">
-              <p class="eyebrow">Лоты и сценарии</p>
+              <p class="eyebrow">Помещения и сценарии</p>
               <h2>Аренда блоками, аренда целиком и покупка только целиком</h2>
-              <p>Лоты не дублируют друг друга: поэтажные блоки показывают арендную экспозицию, а покупка здания целиком вынесена отдельным сценарием без продажи отдельных этажей.</p>
+              <p>Помещения не дублируют друг друга: поэтажные блоки показывают арендную экспозицию, а покупка здания целиком вынесена отдельным сценарием без продажи отдельных этажей.</p>
             </div>
             <div class="section-head section-head-compact">
               <p class="eyebrow">Аренда</p>
@@ -2031,7 +2031,7 @@
           <p>${object.description}</p>
           <div class="hero-labels"><span>${object.areaLabel}</span><span>${object.stageLabel}</span><span>${object.keyDateLabel}</span></div>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="lots.html?deal=rent&object=${object.id}">Лоты в аренду</a>
+            <a class="btn btn-primary" href="lots.html?deal=rent&object=${object.id}">Свободные площади</a>
             ${object.deals.includes("buy") ? `<a class="btn btn-ghost" href="lots.html?deal=buy&object=${object.id}">Покупка здания целиком</a>` : ""}
             <a class="btn btn-ghost" href="${getRouteUrl(object.id)}" target="_blank" rel="noopener noreferrer">Проложить маршрут</a>
             <button class="btn btn-ghost" type="button" data-open-request data-building="${object.id}" data-context="Подбор помещения">Оставить заявку</button>
@@ -2046,8 +2046,8 @@
           </aside>
           <div>
             <div class="section-head">
-              <p class="eyebrow">Лоты</p>
-              <h2>${isMitino ? "Лоты промтехнопарка «Митино»" : id === "nekrasovka" ? "Лоты промтехнопарка «Некрасовка»" : "Лоты медицинского центра «Грекова»"}</h2>
+              <p class="eyebrow">Помещения</p>
+              <h2>${isMitino ? "Свободные площади промтехнопарка «Митино»" : id === "nekrasovka" ? "Свободные площади промтехнопарка «Некрасовка»" : "Свободные площади медицинского центра «Грекова»"}</h2>
               <p>${isMitino ? "7 арендных предложений: общепит, showroom, производство, офисы и мезонинные блоки." : id === "nekrasovka" ? "5 предложений: аренда здания целиком, аренда отдельных уровней и покупка промышленного парка только целиком." : "6 предложений: аренда здания целиком, аренда блоков по уровням и покупка медицинского объекта только целиком."}</p>
             </div>
             <div class="lot-grid">${lots.map(lotCard).join("")}</div>
@@ -2055,7 +2055,7 @@
         </div>
         <div class="rule-block" style="margin-top:34px">
           <h3>${isMitino ? "Промтехнопарк «Митино» — только аренда" : id === "nekrasovka" ? "Некрасовка — продажа только целиком" : "Грекова — медицинский объект, продажа только целиком"}</h3>
-          <p>${isMitino ? "При выборе покупки объект не отображается. В каталоге доступны только арендные лоты B37A-01 — B37A-07." : id === "nekrasovka" ? "Аренда возможна целиком или по уровням, покупка — только лотом NKR-SALE-01, без продажи отдельных этажей." : "Аренда возможна целиком и блоками, покупка — только лотом GRK-SALE-01, без продажи отдельных этажей."}</p>
+          <p>${isMitino ? "При выборе покупки объект не отображается. В каталоге доступны только арендные помещения B37A-01 — B37A-07." : id === "nekrasovka" ? "Аренда возможна целиком или по уровням, покупка — только целиком (NKR-SALE-01), без продажи отдельных этажей." : "Аренда возможна целиком и блоками, покупка — только целиком (GRK-SALE-01), без продажи отдельных этажей."}</p>
         </div>
       </section>
     `;
@@ -2151,13 +2151,13 @@
     const media = getLotMedia(lot, object);
     drawer.innerHTML = `
       <div class="drawer-panel">
-        <button class="drawer-close drawer-close--icon" type="button" data-close-drawer aria-label="Закрыть лот"><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span></button>
+        <button class="drawer-close drawer-close--icon" type="button" data-close-drawer aria-label="Закрыть карточку помещения"><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span><span class="menu-toggle-line" aria-hidden="true"></span></button>
         <p class="eyebrow">${object.shortTitle} · ${dealLabel}</p>
         <h2>${lot.id} · ${lot.type}</h2>
         <div class="drawer-image ${media.isPlan ? "drawer-image--plan" : ""}"><img src="${media.src}" alt="${media.alt}" loading="lazy"></div>
         <div class="facts-grid">
           ${[
-            ["ID лота", lot.id], ["Объект", object.title], ["Сделка", dealLabel], ["Тип", lot.type],
+            ["ID помещения", lot.id], ["Объект", object.title], ["Сделка", dealLabel], ["Тип", lot.type],
             ["Подтип", lot.subType], ["Категория", formatLabel(lot.category)], ["Площадь", formatArea(lot.area)],
             ["Этаж", lot.floor], [getHeightLabel(lot), getHeightValue(lot)], [lot.deal === "buy" ? "Цена" : "Ставка", lot.rate],
             ["Состояние", lot.condition], ["Статус", statusLabel(lot.status)]
@@ -2206,7 +2206,7 @@
     formHost.innerHTML = `
       <p class="eyebrow">Заявка ABCENTRUM</p>
       <h2>Оставить заявку</h2>
-      <p>Оставьте минимум контактов. В заявке автоматически передадим выбранный объект, лот и избранные предложения.</p>
+      <p>Оставьте минимум контактов. В заявке автоматически передадим выбранный объект, помещение и избранные предложения.</p>
       <form class="request-form" data-request-form-submit>
         <label class="field">Имя *<input name="name" required autocomplete="name"></label>
         <label class="field">Телефон *<input name="phone" required autocomplete="tel"></label>
@@ -2216,8 +2216,8 @@
             ${data.objects.map((object) => `<option value="${object.id}" ${object.id === building ? "selected" : ""}>${object.title}</option>`).join("")}
           </select>
         </label>
-        <label class="field">Лот<input name="lot" value="${lot}" ${lot ? "readonly" : ""} placeholder="Например, B37A-04"></label>
-        <label class="field">Комментарий<textarea name="comment">${context.context || (favoriteIds.length ? `Интересуют избранные лоты: ${favoriteIds.join(", ")}` : "Запрос коммерческих условий")}</textarea></label>
+        <label class="field">Помещение<input name="lot" value="${lot}" ${lot ? "readonly" : ""} placeholder="Например, B37A-04"></label>
+        <label class="field">Комментарий<textarea name="comment">${context.context || (favoriteIds.length ? `Избранные помещения: ${favoriteIds.join(", ")}` : "Запрос коммерческих условий")}</textarea></label>
         <label class="checkbox-field"><input name="consent" type="checkbox" required> Согласен на обработку персональных данных *</label>
         <p class="form-error" data-form-error></p>
         <button class="btn btn-dark" type="submit">Отправить заявку</button>
@@ -2280,7 +2280,7 @@
       `Имя: ${payload.name}`,
       `Телефон: ${payload.phone}`,
       `Объект: ${payload.building}`,
-      `Лот: ${payload.lot}`,
+      `Помещение: ${payload.lot}`,
       `Избранное: ${payload.favorites.join(", ") || "нет"}`,
       `Комментарий: ${payload.comment}`,
       `Страница: ${payload.page}`
