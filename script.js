@@ -1236,7 +1236,6 @@
             <div class="section-head">
               <p class="eyebrow">Коммерческие условия</p>
               <h2>Аренда</h2>
-              <p>Для Митино в каталоге и на странице оставлена только аренда. Сценарий объединения показан как способ собрать единый контур из существующих помещений.</p>
             </div>
             <div class="nkr-commercial-grid">
               <article class="nkr-commercial-card reveal">
@@ -1262,7 +1261,6 @@
             <div class="section-head">
               <p class="eyebrow">Доступно к аренде</p>
               <h2>7 помещений и один сценарий объединения</h2>
-              <p>Ниже показаны все помещения. Отдельно выделен сценарий единого контура — он не увеличивает количество площадей и не дублирует помещения.</p>
             </div>
             <div class="nkr-offer-grid mitino-offer-grid">
               ${mitinoPhysicalLots.map((lot) => `
