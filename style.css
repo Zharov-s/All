@@ -7922,6 +7922,47 @@ body[data-page="home"] .contacts-section {
   color: var(--white);
 }
 
+body[data-page="home"] .trust-grid--documents .document-card {
+  border-color: rgba(18, 17, 16, 0.10);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.90), rgba(252, 250, 248, 0.74));
+  color: var(--ink);
+}
+
+body[data-page="home"] .trust-grid--documents .document-icon {
+  border-color: rgba(18, 17, 16, 0.10);
+  background: rgba(18, 17, 16, 0.04);
+  color: var(--gold);
+}
+
+body[data-page="home"] .trust-grid--documents .document-icon svg {
+  color: currentColor;
+}
+
+body[data-page="home"] .trust-grid--documents .document-card h3 {
+  color: var(--ink);
+}
+
+body[data-page="home"] .trust-grid--documents .document-card p {
+  color: rgba(18, 17, 16, 0.64);
+}
+
+body[data-page="home"] .trust-grid--documents .document-card small {
+  color: rgba(18, 17, 16, 0.48);
+}
+
+body[data-page="home"] .trust-grid--documents .status-badge--ready {
+  background: rgba(88, 166, 118, 0.14);
+  color: #387a50;
+  border-color: rgba(88, 166, 118, 0.24);
+}
+
+body[data-page="home"] .trust-grid--documents .status-badge--process {
+  background: rgba(216, 168, 86, 0.14);
+  color: #a86c14;
+  border-color: rgba(216, 168, 86, 0.28);
+}
+
 @media (max-width: 980px) {
   body[data-page="home"] .section-head,
   :is(.mitino-page, .nekrasovka-page) .nkr-section > .section-head:not(.section-head-compact) {
