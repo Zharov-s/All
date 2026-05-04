@@ -6596,3 +6596,199 @@ body.is-leaving {
   height: 20px;
   flex-basis: 20px;
 }
+
+/* Corporate contact module */
+.contacts-section {
+  scroll-margin-top: 124px;
+  background:
+    linear-gradient(135deg, rgba(12, 11, 11, 0.96) 0%, rgba(25, 21, 20, 0.98) 55%, rgba(14, 13, 13, 0.98) 100%);
+}
+
+.contact-panel {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.68fr) minmax(220px, 0.4fr);
+  align-items: stretch;
+  gap: clamp(28px, 4vw, 64px);
+  border-color: rgba(255, 255, 255, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.045)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.025), rgba(179, 38, 27, 0.075));
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.contact-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(203, 58, 44, 0.86), rgba(252, 250, 248, 0.42), rgba(203, 58, 44, 0));
+}
+
+.contact-intro {
+  display: grid;
+  align-content: center;
+}
+
+.contact-panel .eyebrow {
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+
+.contact-kicker {
+  margin: 0;
+  color: rgba(252, 250, 248, 0.58);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-panel .contact-intro h2 {
+  margin-top: 10px;
+  font-size: clamp(30px, 3vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.contact-panel .contact-copy {
+  max-width: 680px;
+  margin-top: 18px;
+  color: rgba(252, 250, 248, 0.76);
+  font-size: clamp(16px, 1.12vw, 19px);
+  line-height: 1.55;
+  opacity: 1;
+}
+
+.contact-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.contact-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-xs);
+  color: rgba(252, 250, 248, 0.72);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.contact-panel .contact-links {
+  align-content: center;
+  gap: 0;
+  font-size: 16px;
+}
+
+.contact-panel .contact-links a {
+  display: grid;
+  gap: 5px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 1;
+}
+
+.contact-panel .contact-links a:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-panel .contact-links a::after {
+  display: none;
+}
+
+.contact-panel .contact-links span {
+  color: rgba(252, 250, 248, 0.52);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contact-panel .contact-links strong {
+  color: rgba(252, 250, 248, 0.86);
+  font-size: clamp(17px, 1.18vw, 20px);
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.contact-panel .contact-links a:hover,
+.contact-panel .contact-links a:focus-visible {
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+  padding-left: clamp(22px, 3vw, 42px);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-actions .btn {
+  width: 100%;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.contact-actions p {
+  max-width: 250px;
+  margin: 0;
+  color: rgba(252, 250, 248, 0.58);
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 1;
+}
+
+@media (max-width: 1240px) {
+  .contact-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-actions {
+    padding-left: 0;
+    padding-top: 22px;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .contact-actions .btn {
+    width: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .contacts-section {
+    scroll-margin-top: 104px;
+  }
+
+  .contact-panel {
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .contact-panel .contact-intro h2 {
+    font-size: clamp(28px, 9vw, 38px);
+  }
+
+  .contact-tags {
+    gap: 6px;
+  }
+
+  .contact-actions .btn {
+    width: 100%;
+    white-space: normal;
+  }
+}

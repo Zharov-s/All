@@ -1114,7 +1114,7 @@
           <section class="nkr-section mitino-gallery-section">
             <div class="section-head">
               <p class="eyebrow">Галерея</p>
-              <h2>Объект в финальной стадии строительства</h2>
+              <h2>Лобби</h2>
               <p>Текущее состояние промтехнопарка на Барышиха 37А. Ввод в эксплуатацию запланирован на III квартал 2026 года.</p>
             </div>
             <div class="mc-root" id="mc-root">
@@ -2335,10 +2335,10 @@
     const target = document.querySelector("[data-contact-links]");
     if (!target) return;
     target.innerHTML = `
-      <a href="${data.contacts.phoneHref}">${data.contacts.phone}</a>
-      <a href="${data.contacts.grekovaPhoneHref}">${data.contacts.grekovaPhone} · Грекова</a>
-      <a href="${data.contacts.emailHref}">${data.contacts.email}</a>
-      <a href="${data.contacts.telegramHref}">${data.contacts.telegram}</a>
+      <a href="${data.contacts.phoneHref}"><span>Телефон</span><strong>${data.contacts.phone}</strong></a>
+      <a href="${data.contacts.grekovaPhoneHref}"><span>Объект на Грекова</span><strong>${data.contacts.grekovaPhone}</strong></a>
+      <a href="${data.contacts.emailHref}"><span>Email</span><strong>${data.contacts.email}</strong></a>
+      <a href="${data.contacts.telegramHref}"><span>Telegram</span><strong>${data.contacts.telegram}</strong></a>
     `;
   }
 
