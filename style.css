@@ -7005,3 +7005,664 @@ body.is-leaving {
     border-top: 1px solid rgba(18, 17, 16, 0.10);
   }
 }
+
+/* Grekova page system polish */
+.grekova-page .nkr-section:not(.grekova-overview) {
+  scroll-margin-top: 128px;
+}
+
+.grekova-page .nkr-section > .section-head:not(.section-head-compact) {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(280px, 0.32fr);
+  gap: clamp(24px, 4vw, 58px);
+  align-items: end;
+  margin-bottom: clamp(24px, 3.4vw, 44px);
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(18, 17, 16, 0.12);
+}
+
+.grekova-page .nkr-section > .section-head:not(.section-head-compact) .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: -8px;
+}
+
+.grekova-page .nkr-section > .section-head:not(.section-head-compact) h2 {
+  max-width: 860px;
+  font-size: clamp(34px, 3.6vw, 58px);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.grekova-page .nkr-section > .section-head:not(.section-head-compact) p:not(.eyebrow) {
+  max-width: 560px;
+  margin-top: 0;
+  color: rgba(18, 17, 16, 0.62);
+  font-size: clamp(15px, 1.05vw, 18px);
+  line-height: 1.55;
+}
+
+.grekova-page .section-head-compact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+  margin-top: clamp(34px, 5vw, 58px);
+  margin-bottom: 18px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(18, 17, 16, 0.10);
+}
+
+.grekova-page .section-head-compact .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: -4px;
+}
+
+.grekova-page .section-head-compact h3 {
+  font-size: clamp(26px, 2.7vw, 42px);
+  letter-spacing: -0.035em;
+}
+
+.grekova-page .grekova-spec-grid {
+  counter-reset: grekova-spec;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius);
+  background: rgba(252, 250, 248, 0.72);
+  box-shadow: 0 22px 66px rgba(18, 17, 16, 0.08);
+  overflow: hidden;
+}
+
+.grekova-page #grekova-specs .nkr-level-card {
+  min-height: 190px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: clamp(22px, 2.4vw, 32px);
+  border: 0;
+  border-right: 1px solid rgba(18, 17, 16, 0.09);
+  border-bottom: 1px solid rgba(18, 17, 16, 0.09);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(252, 250, 248, 0.64));
+  box-shadow: none;
+}
+
+.grekova-page #grekova-specs .nkr-level-card:nth-child(3n) {
+  border-right: 0;
+}
+
+.grekova-page #grekova-specs .nkr-level-card:nth-child(n + 4) {
+  border-bottom: 0;
+}
+
+.grekova-page #grekova-specs .nkr-level-card::before {
+  counter-increment: grekova-spec;
+  content: counter(grekova-spec, decimal-leading-zero);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.grekova-page #grekova-specs .nkr-level-card::after {
+  display: none;
+}
+
+.grekova-page #grekova-specs .nkr-level-card span {
+  color: rgba(18, 17, 16, 0.52);
+  font-weight: 600;
+}
+
+.grekova-page #grekova-specs .nkr-level-card strong {
+  margin-top: 0;
+  color: var(--ink);
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1;
+}
+
+.grekova-page #grekova-specs .nkr-level-card p {
+  max-width: 34ch;
+  margin-top: 0;
+  color: rgba(18, 17, 16, 0.58);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.grekova-page #grekova-specs .nkr-rule-block {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.3fr) minmax(0, 0.7fr);
+  gap: clamp(18px, 3vw, 42px);
+  align-items: center;
+  padding: clamp(24px, 3vw, 34px);
+  border-color: rgba(18, 17, 16, 0.10);
+  background:
+    linear-gradient(135deg, rgba(24, 21, 20, 0.96), rgba(12, 11, 11, 0.96));
+  color: var(--white);
+  box-shadow: 0 22px 58px rgba(18, 17, 16, 0.16);
+}
+
+.grekova-page #grekova-specs .nkr-rule-block h3 {
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.grekova-page #grekova-specs .nkr-rule-block p {
+  margin: 0;
+  color: rgba(252, 250, 248, 0.72);
+  opacity: 1;
+}
+
+.grekova-page .grekova-floor-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.grekova-page #grekova-floors .nkr-plan-card {
+  min-height: 300px;
+  gap: 16px;
+  padding: clamp(22px, 2.2vw, 28px);
+  border-color: rgba(18, 17, 16, 0.10);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(252, 250, 248, 0.70));
+  box-shadow: 0 18px 50px rgba(18, 17, 16, 0.08);
+}
+
+.grekova-page #grekova-floors .nkr-plan-card::before {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(179, 38, 27, 0.08), transparent 38%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.20), transparent);
+}
+
+.grekova-page #grekova-floors .nkr-plan-card::after {
+  display: none;
+}
+
+.grekova-page #grekova-floors .nkr-plan-card > span {
+  width: fit-content;
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border: 1px solid rgba(179, 38, 27, 0.18);
+  border-radius: var(--radius-xs);
+  background: rgba(179, 38, 27, 0.06);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.grekova-page #grekova-floors .nkr-plan-card strong {
+  color: var(--ink);
+  font-size: clamp(28px, 2.5vw, 38px);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.grekova-page #grekova-floors .nkr-plan-card h3 {
+  margin: 0;
+  min-height: 3.1em;
+  color: var(--ink);
+  font-size: clamp(20px, 1.8vw, 27px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+}
+
+.grekova-page #grekova-floors .nkr-plan-card p {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(18, 17, 16, 0.10);
+  color: rgba(18, 17, 16, 0.58);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.grekova-page #grekova-location .nkr-location-grid {
+  grid-template-columns: minmax(0, 1.45fr) minmax(340px, 0.55fr);
+  gap: 0;
+  border: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius);
+  background: rgba(252, 250, 248, 0.78);
+  box-shadow: 0 22px 66px rgba(18, 17, 16, 0.10);
+  overflow: hidden;
+}
+
+.grekova-page #grekova-location .nkr-map-card {
+  min-height: 560px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.grekova-page #grekova-location .nkr-map-card iframe {
+  min-height: 560px;
+}
+
+.grekova-page #grekova-location .nkr-location-card {
+  align-content: start;
+  gap: 18px;
+  padding: clamp(26px, 3vw, 40px);
+  border: 0;
+  border-left: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(179, 38, 27, 0.08), transparent 42%),
+    rgba(252, 250, 248, 0.96);
+}
+
+.grekova-page #grekova-location .nkr-location-card h3 {
+  font-size: clamp(28px, 2.6vw, 40px);
+  letter-spacing: -0.035em;
+}
+
+.grekova-page #grekova-location .nkr-coords {
+  width: fit-content;
+  padding: 8px 10px;
+  border: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius-xs);
+  background: rgba(255, 255, 255, 0.78);
+  color: rgba(18, 17, 16, 0.58);
+}
+
+.grekova-page .grekova-surroundings {
+  gap: 0;
+  margin: 14px 0 6px;
+  border-top: 1px solid rgba(18, 17, 16, 0.10);
+}
+
+.grekova-page .grekova-surroundings div {
+  border-bottom-color: rgba(18, 17, 16, 0.10);
+}
+
+.grekova-page .grekova-surroundings span {
+  color: rgba(18, 17, 16, 0.45);
+  font-weight: 700;
+}
+
+.grekova-page .grekova-surroundings strong {
+  color: rgba(18, 17, 16, 0.74);
+}
+
+.grekova-page .grekova-roadmap {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius);
+  background: rgba(252, 250, 248, 0.76);
+  box-shadow: 0 18px 54px rgba(18, 17, 16, 0.08);
+  overflow: hidden;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item {
+  position: relative;
+  min-height: 260px;
+  padding: clamp(22px, 2.4vw, 30px);
+  border: 0;
+  border-right: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: none;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item:last-child {
+  border-right: 0;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item::before {
+  content: "";
+  position: absolute;
+  inset: 24px auto auto 24px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(179, 38, 27, 0.36);
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item span {
+  padding-left: 22px;
+  color: rgba(18, 17, 16, 0.44);
+  font-weight: 700;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item strong {
+  color: var(--ink);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  text-transform: none;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item h3 {
+  font-size: clamp(22px, 2vw, 30px);
+  letter-spacing: -0.025em;
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current {
+  background:
+    radial-gradient(circle at 24% 0%, rgba(179, 38, 27, 0.28), transparent 42%),
+    linear-gradient(145deg, #181514, #0f0e0e);
+  color: var(--white);
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current::before {
+  background: var(--gold);
+  box-shadow: 0 0 0 6px rgba(179, 38, 27, 0.16);
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current span,
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current strong,
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current p {
+  color: rgba(252, 250, 248, 0.72);
+}
+
+.grekova-page .grekova-roadmap .nkr-roadmap-item.is-current h3 {
+  color: var(--white);
+}
+
+.grekova-page #grekova-terms .nkr-commercial-grid {
+  grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+  gap: 14px;
+}
+
+.grekova-page #grekova-terms .nkr-commercial-card {
+  display: grid;
+  align-content: space-between;
+  min-height: 430px;
+  padding: clamp(26px, 3vw, 38px);
+  border-color: rgba(18, 17, 16, 0.10);
+  background: rgba(252, 250, 248, 0.84);
+}
+
+.grekova-page #grekova-terms .nkr-commercial-card:first-child {
+  border-color: rgba(255, 255, 255, 0.10);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(179, 38, 27, 0.18), transparent 44%),
+    linear-gradient(145deg, #181514, #0f0e0e);
+  color: var(--white);
+}
+
+.grekova-page #grekova-terms .nkr-commercial-card:first-child .eyebrow,
+.grekova-page #grekova-terms .nkr-commercial-card:first-child .detail-list li {
+  color: rgba(252, 250, 248, 0.72);
+}
+
+.grekova-page #grekova-terms .nkr-commercial-card h3 {
+  margin-bottom: 22px;
+  font-size: clamp(36px, 4vw, 58px);
+  line-height: 0.96;
+}
+
+.grekova-page #grekova-terms .detail-list {
+  margin: 0 0 24px;
+  gap: 0;
+}
+
+.grekova-page #grekova-terms .detail-list li {
+  padding: 11px 0;
+  border-top-color: currentColor;
+  opacity: 0.74;
+}
+
+.grekova-page #grekova-terms .nkr-commercial-card:first-child .detail-list li {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+.grekova-page .grekova-rent-table {
+  display: grid;
+  margin-top: 16px;
+  border-color: rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius);
+  background: rgba(252, 250, 248, 0.84);
+  box-shadow: 0 18px 54px rgba(18, 17, 16, 0.08);
+  overflow: hidden;
+}
+
+.grekova-page .grekova-rent-table .nkr-terms-head,
+.grekova-page .grekova-rent-table > div {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1fr;
+  border-bottom: 1px solid rgba(18, 17, 16, 0.08);
+}
+
+.grekova-page .grekova-rent-table > div:last-child {
+  border-bottom: 0;
+}
+
+.grekova-page .grekova-rent-table .nkr-terms-head {
+  background: linear-gradient(135deg, rgba(24, 21, 20, 0.96), rgba(12, 11, 11, 0.96));
+  color: rgba(252, 250, 248, 0.66);
+}
+
+.grekova-page .grekova-rent-table .nkr-terms-head span,
+.grekova-page .grekova-rent-table > div span,
+.grekova-page .grekova-rent-table > div strong,
+.grekova-page .grekova-rent-table > div em {
+  padding: 16px 18px;
+  border-right: 1px solid rgba(18, 17, 16, 0.08);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.grekova-page .grekova-rent-table .nkr-terms-head span:last-child,
+.grekova-page .grekova-rent-table > div span:last-child,
+.grekova-page .grekova-rent-table > div em:last-child {
+  border-right: 0;
+}
+
+.grekova-page .grekova-rent-table > div:not(.nkr-terms-head) {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.grekova-page .grekova-rent-table > div:not(.nkr-terms-head):nth-child(odd) {
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.grekova-page .grekova-rent-table em {
+  color: var(--gold);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.grekova-page #grekova-terms .nkr-rule-block,
+.grekova-page #grekova-investment .nkr-rule-block {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.3fr) minmax(0, 0.7fr);
+  gap: clamp(18px, 3vw, 42px);
+  align-items: center;
+  padding: clamp(24px, 3vw, 34px);
+  border-color: rgba(18, 17, 16, 0.10);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(252, 250, 248, 0.68));
+  box-shadow: 0 18px 54px rgba(18, 17, 16, 0.08);
+}
+
+.grekova-page #grekova-terms .nkr-rule-block h3,
+.grekova-page #grekova-investment .nkr-rule-block h3 {
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.grekova-page #grekova-terms .nkr-rule-block p,
+.grekova-page #grekova-investment .nkr-rule-block p {
+  margin: 0;
+  color: rgba(18, 17, 16, 0.62);
+  opacity: 1;
+}
+
+.grekova-page .grekova-investment-grid {
+  gap: 0;
+  margin-bottom: 14px;
+  border: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 18px 54px rgba(18, 17, 16, 0.08);
+}
+
+.grekova-page .grekova-investment-grid .nkr-glass-card {
+  min-height: 140px;
+  border: 0;
+  border-right: 1px solid rgba(18, 17, 16, 0.10);
+  border-radius: 0;
+  background: rgba(252, 250, 248, 0.82);
+  box-shadow: none;
+}
+
+.grekova-page .grekova-investment-grid .nkr-glass-card:last-child {
+  border-right: 0;
+}
+
+.grekova-page .grekova-investment-grid .nkr-glass-card strong {
+  color: var(--ink);
+  font-size: clamp(28px, 2.8vw, 42px);
+}
+
+.grekova-page .grekova-exit-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.grekova-page .grekova-exit-grid .nkr-dynamic-card {
+  min-height: 190px;
+  display: grid;
+  align-content: space-between;
+  padding: clamp(24px, 2.5vw, 32px);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(179, 38, 27, 0.20), transparent 42%),
+    linear-gradient(145deg, #181514, #0f0e0e);
+}
+
+.grekova-page .grekova-exit-grid .nkr-dynamic-card h3 {
+  color: var(--white);
+  font-size: clamp(30px, 3.1vw, 46px);
+  opacity: 1;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.grekova-page .grekova-exit-grid .nkr-dynamic-card .eyebrow {
+  color: rgba(252, 250, 248, 0.54);
+}
+
+.grekova-page .grekova-exit-grid .nkr-dynamic-card p:last-child {
+  color: rgba(252, 250, 248, 0.62);
+}
+
+.grekova-page #grekova-lots {
+  padding-top: clamp(22px, 4vw, 52px);
+  border-top: 1px solid rgba(18, 17, 16, 0.10);
+}
+
+.grekova-page #grekova-lots .lot-grid {
+  gap: 14px;
+}
+
+.grekova-page #grekova-lots .lot-card {
+  border-color: rgba(18, 17, 16, 0.10);
+  background: rgba(252, 250, 248, 0.80);
+}
+
+@media (max-width: 1180px) {
+  .grekova-page .grekova-floor-grid,
+  .grekova-page .grekova-roadmap,
+  .grekova-page .grekova-investment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grekova-page .grekova-roadmap .nkr-roadmap-item:nth-child(2n),
+  .grekova-page .grekova-investment-grid .nkr-glass-card:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .grekova-page .grekova-roadmap .nkr-roadmap-item:nth-child(n + 3),
+  .grekova-page .grekova-investment-grid .nkr-glass-card:nth-child(n + 3) {
+    border-top: 1px solid rgba(18, 17, 16, 0.10);
+  }
+}
+
+@media (max-width: 980px) {
+  .grekova-page .nkr-section > .section-head:not(.section-head-compact),
+  .grekova-page .section-head-compact,
+  .grekova-page #grekova-specs .nkr-rule-block,
+  .grekova-page #grekova-terms .nkr-rule-block,
+  .grekova-page #grekova-investment .nkr-rule-block {
+    grid-template-columns: 1fr;
+  }
+
+  .grekova-page .grekova-spec-grid,
+  .grekova-page #grekova-terms .nkr-commercial-grid,
+  .grekova-page #grekova-location .nkr-location-grid,
+  .grekova-page .grekova-exit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grekova-page #grekova-specs .nkr-level-card,
+  .grekova-page #grekova-specs .nkr-level-card:nth-child(3n) {
+    border-right: 0;
+  }
+
+  .grekova-page #grekova-specs .nkr-level-card:nth-child(n + 4) {
+    border-bottom: 1px solid rgba(18, 17, 16, 0.09);
+  }
+
+  .grekova-page #grekova-specs .nkr-level-card:last-child {
+    border-bottom: 0;
+  }
+
+  .grekova-page #grekova-location .nkr-location-card {
+    border-left: 0;
+    border-top: 1px solid rgba(18, 17, 16, 0.10);
+  }
+}
+
+@media (max-width: 680px) {
+  .grekova-page .nkr-section:not(.grekova-overview) {
+    scroll-margin-top: 104px;
+  }
+
+  .grekova-page .nkr-section > .section-head:not(.section-head-compact) h2 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .grekova-page #grekova-floors .nkr-plan-card h3 {
+    min-height: auto;
+  }
+
+  .grekova-page .grekova-floor-grid,
+  .grekova-page .grekova-roadmap,
+  .grekova-page .grekova-investment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grekova-page .grekova-roadmap .nkr-roadmap-item,
+  .grekova-page .grekova-investment-grid .nkr-glass-card {
+    border-right: 0;
+  }
+
+  .grekova-page .grekova-roadmap .nkr-roadmap-item + .nkr-roadmap-item,
+  .grekova-page .grekova-investment-grid .nkr-glass-card + .nkr-glass-card {
+    border-top: 1px solid rgba(18, 17, 16, 0.10);
+  }
+
+  .grekova-page #grekova-location .nkr-map-card,
+  .grekova-page #grekova-location .nkr-map-card iframe {
+    min-height: 420px;
+  }
+
+  .grekova-page .grekova-rent-table .nkr-terms-head span,
+  .grekova-page .grekova-rent-table > div span,
+  .grekova-page .grekova-rent-table > div strong,
+  .grekova-page .grekova-rent-table > div em {
+    padding: 12px 14px;
+  }
+}
