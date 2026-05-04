@@ -1297,11 +1297,6 @@
                 </div>
               </article>
             </div>
-            <div class="rule-block nkr-rule-block reveal">
-              <h3>Правило сделки</h3>
-              <p>Митино работает только как арендный объект. Покупка для него не выводится, а сценарий объединения не создает дополнительное помещение поверх существующих площадей.</p>
-              <div class="section-actions"><a class="btn btn-dark" href="lots.html?deal=rent&object=mitino">Открыть помещения Митино в каталоге</a><button class="btn btn-ghost" type="button" data-open-request data-building="${object.id}" data-context="Митино · подобрать площадь">Подобрать площадь</button></div>
-            </div>
           </section>
         </section>
       `;
