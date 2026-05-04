@@ -1061,6 +1061,7 @@ body[data-page="object"] .site-header {
 .contacts-section > *,
 .investment-section > *,
 .trust-section > *,
+.map-section > *,
 .object-content > * {
   max-width: var(--container);
   margin-left: auto;
@@ -6564,10 +6565,6 @@ body.is-leaving {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-.metro-icon circle {
-  display: none;
 }
 
 .metro-icon path {

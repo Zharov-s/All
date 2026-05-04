@@ -466,7 +466,6 @@
     return `
       <span class="metro-icon" style="--metro-color: ${color}" aria-hidden="true">
         <svg viewBox="0 0 28 28" focusable="false">
-          <circle cx="14" cy="14" r="12" />
           <path d="M7.2 19.4V8.6h3l3.8 5.5 3.8-5.5h3v10.8h-2.55v-6.45l-3.35 4.78h-1.8l-3.35-4.78v6.45H7.2Z" />
         </svg>
       </span>
