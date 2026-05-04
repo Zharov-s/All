@@ -121,7 +121,7 @@ img {
   height: 3px;
   background: linear-gradient(90deg, var(--gold), var(--warm), var(--white));
   transform-origin: left center;
-  transition: width 0.12s linear;
+  transition: width 0.1s var(--ease-out);
 }
 
 .section-brand,
@@ -322,7 +322,7 @@ body[data-page="object"] .site-header {
   line-height: 1.1;
   box-shadow: none;
   transform: translateZ(0);
-  transition: transform 0.32s var(--ease-out), border-color 0.32s ease, color 0.32s ease, background 0.32s ease, box-shadow 0.32s ease;
+  transition: transform 0.14s var(--ease-out), border-color 0.17s var(--ease-out), color 0.17s var(--ease-out), background 0.17s var(--ease-out), box-shadow 0.17s var(--ease-out);
 }
 
 .btn::before {
@@ -334,7 +334,7 @@ body[data-page="object"] .site-header {
   background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0));
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.32s ease, transform 0.32s var(--ease-out);
+  transition: opacity 0.24s var(--ease-out), transform 0.24s var(--ease-out);
 }
 
 .btn:hover,
@@ -836,7 +836,7 @@ body[data-page="object"] .site-header {
   background: var(--brand);
   box-shadow: 0 0 0 5px rgba(255,255,255,0.08), 0 6px 18px rgba(8,10,15,0.28);
   cursor: ew-resize;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
 
 .range-slider input[type="range"]::-moz-range-thumb {
@@ -848,7 +848,7 @@ body[data-page="object"] .site-header {
   background: var(--brand);
   box-shadow: 0 0 0 5px rgba(255,255,255,0.08), 0 6px 18px rgba(8,10,15,0.28);
   cursor: ew-resize;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
 }
 
 .range-slider input[type="range"]:focus-visible::-webkit-slider-thumb,
@@ -958,7 +958,7 @@ body[data-page="object"] .site-header {
   letter-spacing: 0;
   font-size: 15px;
   font-weight: 400;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: border-color 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out), background 0.18s var(--ease-out);
 }
 
 .field textarea {
@@ -1004,7 +1004,7 @@ body[data-page="object"] .site-header {
 
 .text-reveal h2 span {
   color: rgba(255,255,255,0.28);
-  transition: color 0.5s ease, opacity 0.5s ease;
+  transition: color 0.42s var(--ease-out), opacity 0.42s var(--ease-out);
 }
 
 .text-reveal h2 span.is-visible {
@@ -1144,7 +1144,7 @@ body[data-page="object"] .site-header {
   pointer-events: none;
   background: radial-gradient(circle at 25% 0%, rgba(255,255,255,0.2), transparent 34%);
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.28s var(--ease-out);
 }
 
 .object-card:hover,
@@ -1674,7 +1674,7 @@ body[data-page="object"] .site-header {
 .faq-item {
   border-color: var(--dark-line);
   background: rgba(255, 255, 255, 0.72);
-  transition: background 0.25s ease, border-color 0.25s ease;
+  transition: background 0.22s var(--ease-out), border-color 0.22s var(--ease-out);
 }
 
 .faq-item button {
@@ -1705,18 +1705,27 @@ body[data-page="object"] .site-header {
   transform: translateY(-50%) rotate(45deg);
 }
 
-.faq-item p {
+.faq-answer {
   display: grid;
   grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s var(--ease-out);
+}
+
+.faq-item.is-open .faq-answer {
+  grid-template-rows: 1fr;
+}
+
+.faq-item p {
+  overflow: hidden;
+  min-height: 0;
   padding: 0 26px;
   color: currentColor;
   opacity: 0;
   line-height: 1.52;
-  transition: grid-template-rows 0.35s var(--ease-out), opacity 0.25s ease, padding 0.25s ease;
+  transition: opacity 0.28s var(--ease-out), padding 0.28s var(--ease-out);
 }
 
 .faq-item.is-open p {
-  display: block;
   padding: 0 26px 26px;
   opacity: 0.72;
 }
@@ -1972,7 +1981,7 @@ body[data-page="object"] .site-header {
   opacity: 0;
   background: rgba(2, 6, 14, 0.66);
   backdrop-filter: blur(8px);
-  transition: opacity 0.28s ease;
+  transition: opacity 0.28s var(--ease-out);
 }
 
 .drawer.is-open,
@@ -5565,12 +5574,12 @@ body[data-page="object"] .site-header {
 .has-principled-motion .map-marker-item {
   transform-origin: center;
   transition:
-    transform var(--motion-base) var(--ease-follow),
-    border-color var(--motion-base) var(--ease-out),
-    background var(--motion-base) var(--ease-out),
-    color var(--motion-base) var(--ease-out),
-    box-shadow var(--motion-base) var(--ease-out),
-    opacity var(--motion-base) var(--ease-out);
+    transform 160ms var(--ease-follow),
+    border-color 200ms var(--ease-out),
+    background 200ms var(--ease-out),
+    color 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    opacity 200ms var(--ease-out);
 }
 
 .has-principled-motion .btn:hover,
@@ -5628,12 +5637,12 @@ body[data-page="object"] .site-header {
 .has-principled-motion .map-object-card {
   transform-origin: 50% 82%;
   transition:
-    transform 620ms var(--ease-follow),
-    border-color 420ms var(--ease-out),
-    background 420ms var(--ease-out),
-    box-shadow 520ms var(--ease-out),
-    opacity 520ms var(--ease-out),
-    filter 520ms var(--ease-out);
+    transform 360ms var(--ease-follow),
+    border-color 280ms var(--ease-out),
+    background 280ms var(--ease-out),
+    box-shadow 360ms var(--ease-out),
+    opacity 360ms var(--ease-out),
+    filter 360ms var(--ease-out);
 }
 
 .has-principled-motion .object-card:hover,
@@ -5675,9 +5684,9 @@ body[data-page="object"] .site-header {
 .has-principled-motion .map-marker-number,
 .has-principled-motion .map-object-card h3 span {
   transition:
-    transform 520ms var(--ease-follow),
-    background 360ms var(--ease-out),
-    box-shadow 360ms var(--ease-out);
+    transform 300ms var(--ease-follow),
+    background 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
 }
 
 .has-principled-motion .map-marker-item:hover .map-marker-number,
@@ -5691,9 +5700,9 @@ body[data-page="object"] .site-header {
 .has-principled-motion .modal-panel,
 .has-principled-motion .filters-panel {
   transition:
-    transform 620ms var(--ease-follow),
-    opacity 420ms var(--ease-out),
-    box-shadow 420ms var(--ease-out);
+    transform 480ms var(--ease-follow),
+    opacity 320ms var(--ease-out),
+    box-shadow 320ms var(--ease-out);
 }
 
 .has-principled-motion .modal-panel {
@@ -5863,7 +5872,7 @@ body.is-leaving {
   border-radius: 999px;
   background: currentColor;
   transform-origin: center;
-  transition: transform 0.38s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.22s ease, width 0.32s ease;
+  transition: transform 0.38s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.22s var(--ease-out), width 0.32s var(--ease-out);
 }
 
 .menu-toggle-line:nth-child(1) { transform: translate(-50%, -8px); }
@@ -6154,7 +6163,7 @@ body.is-leaving {
   background: rgba(255, 255, 255, 0.045);
   color: rgba(252, 250, 248, 0.78);
   border-color: rgba(255, 255, 255, 0.18);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), transform 0.18s var(--ease-out);
 }
 
 .segmented button.is-active,
@@ -6372,15 +6381,13 @@ body.is-leaving {
 }
 
 .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s var(--ease-out);
 }
 
 .faq-item.is-open .faq-answer {
-  max-height: 260px;
-  opacity: 1;
+  grid-template-rows: 1fr;
 }
 
 .faq-item > p {
