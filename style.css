@@ -1049,6 +1049,7 @@ body[data-page="object"] .site-header {
 .contacts-section,
 .investment-section,
 .trust-section,
+.map-section,
 .object-content {
   padding: clamp(78px, 10vw, 150px) clamp(18px, 6vw, 92px);
 }

@@ -349,7 +349,7 @@
           <article class="map-object-card reveal">
             <div>
               <p class="eyebrow">${object.deals.includes("buy") ? "Аренда · Покупка" : "Аренда"}</p>
-              <h3><span>${object.mapIndex}</span>${object.title}</h3>
+              <h3>${object.title}</h3>
               <p>${object.address}</p>
               <div class="map-metro">${getMetroIcon(object.id)}<span>${getMetroText(object.id)}</span></div>
             </div>
