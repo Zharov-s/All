@@ -1837,13 +1837,24 @@
           </nav>
 
           <section class="nkr-section grekova-overview" id="grekova-about">
-            <div class="section-head">
-              <p class="eyebrow">О проекте</p>
-              <h2>Медицинский формат в сложившемся жилом районе</h2>
-              <p>Отдельно стоящее здание медицинского назначения расположено на первой линии ул. Грекова в районе Северное Медведково. Южная граница участка ориентирована на станцию метро «Медведково», что формирует понятный доступ для пациентов и персонала.</p>
+            <div class="grekova-overview-shell reveal">
+              <div class="grekova-overview-main">
+                <p class="eyebrow">О проекте</p>
+                <h2>Медицинский формат в сложившемся жилом районе</h2>
+                <p>Отдельно стоящее здание медицинского назначения расположено на первой линии ул. Грекова в районе Северное Медведково. Южная граница участка ориентирована на станцию метро «Медведково», что формирует понятный доступ для пациентов и персонала.</p>
+              </div>
+              <aside class="grekova-overview-summary" aria-label="Сводка по объекту">
+                <span>Профиль объекта</span>
+                <strong>Отдельно стоящее здание медицинского назначения</strong>
+                <dl>
+                  <div><dt>Адрес</dt><dd>ул. Грекова, 5–7</dd></div>
+                  <div><dt>Локация</dt><dd>Северное Медведково</dd></div>
+                  <div><dt>Доступ</dt><dd>метро «Медведково»</dd></div>
+                </dl>
+              </aside>
             </div>
-            <div class="nkr-kpi-grid">
-              ${grekovaKpis.map(([value, label]) => `<article class="nkr-glass-card reveal"><strong>${value}</strong><span>${label}</span></article>`).join("")}
+            <div class="nkr-kpi-grid grekova-kpi-grid">
+              ${grekovaKpis.map(([value, label], index) => `<article class="nkr-glass-card reveal"><span class="grekova-kpi-index">${String(index + 1).padStart(2, "0")}</span><strong>${value}</strong><span>${label}</span></article>`).join("")}
             </div>
           </section>
 
