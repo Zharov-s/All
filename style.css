@@ -6266,14 +6266,9 @@ body.is-leaving {
 }
 
 .map-metro span {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border: 1px solid rgba(179,38,27,0.25);
-  border-radius: 50%;
-  color: var(--gold);
+  color: rgba(18, 17, 16, 0.72);
   font-size: 14px;
+  line-height: 1.35;
 }
 
 .ymap-balloon {
