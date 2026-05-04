@@ -1173,7 +1173,7 @@
           <section class="nkr-section" id="mitino-infrastructure">
             <div class="section-head">
               <p class="eyebrow">Инфраструктура и среда</p>
-              <h2>Объект как рабочая среда, а не просто набор помещений</h2>
+              <h2>Объект как рабочая среда</h2>
               <p>Инфраструктура поддерживает ежедневную работу команды, клиентские встречи и операционные сценарии арендаторов.</p>
             </div>
             <div class="nkr-plan-grid mitino-infrastructure-grid">
@@ -1235,7 +1235,7 @@
           <section class="nkr-section" id="mitino-terms">
             <div class="section-head">
               <p class="eyebrow">Коммерческие условия</p>
-              <h2>Только аренда — без сценариев покупки и без дублей</h2>
+              <h2>Аренда</h2>
               <p>Для Митино в каталоге и на странице оставлена только аренда. Сценарий объединения показан как способ собрать единый контур из существующих помещений.</p>
             </div>
             <div class="nkr-commercial-grid">
