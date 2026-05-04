@@ -7822,6 +7822,10 @@ body[data-page="home"] .hero,
     linear-gradient(135deg, #0c0b0b 0%, #181514 58%, #11100f 100%);
 }
 
+body[data-page="home"] .hero-content--commercial h1 {
+  color: var(--white);
+}
+
 body[data-page="home"] .hero-overlay,
 :is(.mitino-hero, .nkr-hero) .object-hero-media::after {
   background:
