@@ -51,6 +51,7 @@
     renderHeader();
     renderFooter();
     renderRequestModal();
+    initCookieBanner();
     renderContactLinks();
     bindGlobalClicks();
     bindKeyboard();
@@ -109,7 +110,39 @@
       <div><h3>Объекты</h3><a href="mitino.html">Промтехнопарк «Митино»</a><a href="nekrasovka.html">Промтехнопарк «Некрасовка»</a><a href="grekova.html">Медицинский центр «Грекова»</a></div>
       <div><h3>Каталог</h3><a href="lots.html">Все помещения</a><a href="lots.html?deal=rent">Аренда</a><a href="lots.html?deal=buy&object=nekrasovka,grekova">Покупка</a><a href="lots.html?favorites=1">Избранное</a></div>
       <div><h3>Контакты</h3><a href="${data.contacts.phoneHref}">${data.contacts.phone}</a><a href="${data.contacts.emailHref}">${data.contacts.email}</a><a href="${data.contacts.telegramHref}">${data.contacts.telegram}</a></div>
+      <div class="footer-legal">
+        <p>Оператор сайта: ${data.legal.shortName}</p>
+        <p>ИНН ${data.legal.inn} · ОГРН ${data.legal.ogrn} · КПП ${data.legal.kpp}</p>
+        <p>${data.legal.address}</p>
+        <a href="privacy.html">Политика обработки персональных данных</a>
+      </div>
     `;
+  }
+
+  function initCookieBanner() {
+    const storageKey = "abcentrum:cookieConsent";
+    let accepted = false;
+    try {
+      accepted = localStorage.getItem(storageKey) === "accepted";
+    } catch (error) {}
+    if (accepted || document.querySelector("[data-cookie-banner]")) return;
+
+    const banner = document.createElement("div");
+    banner.className = "cookie-banner";
+    banner.dataset.cookieBanner = "";
+    banner.innerHTML = `
+      <p>Сайт ${data.legal.shortName} использует cookies и сервис Яндекс.Карты для корректной работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с <a href="privacy.html">Политикой обработки персональных данных</a>.</p>
+      <button class="btn btn-light" type="button" data-cookie-accept>Понятно</button>
+    `;
+    document.body.appendChild(banner);
+
+    banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
+      try {
+        localStorage.setItem(storageKey, "accepted");
+      } catch (error) {}
+      banner.classList.add("is-hidden");
+      window.setTimeout(() => banner.remove(), 260);
+    });
   }
 
   function renderHome() {
@@ -2209,6 +2242,7 @@
       <form class="request-form" data-request-form-submit>
         <label class="field">Имя *<input name="name" required autocomplete="name"></label>
         <label class="field">Телефон *<input name="phone" required autocomplete="tel"></label>
+        <label class="field">Email<input name="email" type="email" autocomplete="email"></label>
         <label class="field">Объект
           <select name="building">
             <option value="">Не выбран</option>
@@ -2217,7 +2251,7 @@
         </label>
         <label class="field">Помещение<input name="lot" value="${lot}" ${lot ? "readonly" : ""} placeholder="Например, B37A-04"></label>
         <label class="field">Комментарий<textarea name="comment">${context.context || (favoriteIds.length ? `Избранные помещения: ${favoriteIds.join(", ")}` : "Запрос коммерческих условий")}</textarea></label>
-        <label class="checkbox-field"><input name="consent" type="checkbox" required> Согласен на обработку персональных данных *</label>
+        <label class="checkbox-field consent-field"><input name="consent" type="checkbox" required><span>Я соглашаюсь на обработку персональных данных ${data.legal.shortName} и ознакомлен с <a href="privacy.html" target="_blank" rel="noopener noreferrer">Политикой обработки персональных данных</a>.</span></label>
         <p class="form-error" data-form-error></p>
         <button class="btn btn-dark" type="submit">Отправить заявку</button>
         <div class="form-success" data-form-success hidden></div>
@@ -2245,6 +2279,7 @@
     const payload = {
       name: values.name,
       phone: values.phone,
+      email: values.email || "не указан",
       building: objectById[values.building]?.title || "не выбран",
       lot: values.lot || "не выбран",
       comment: values.comment || "без комментария",
@@ -2278,6 +2313,7 @@
       "Заявка ABCENTRUM",
       `Имя: ${payload.name}`,
       `Телефон: ${payload.phone}`,
+      `Email: ${payload.email}`,
       `Объект: ${payload.building}`,
       `Помещение: ${payload.lot}`,
       `Избранное: ${payload.favorites.join(", ") || "нет"}`,

@@ -11,6 +11,17 @@ window.ABCENTRUM = {
     telegramHref: "https://t.me/abcentrum_dev",
     formEndpoint: ""
   },
+  legal: {
+    fullName: "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «АБ ЦЕНТРУМ»",
+    shortName: "ООО «АБ Ц»",
+    registeredAt: "03.05.2017",
+    inn: "7743207456",
+    ogrn: "1177746448406",
+    kpp: "773301001",
+    address: "г. Москва, вн.тер. г. Муниципальный округ Митино, ул. Митинская, д. 16, помещ. 89",
+    email: "info@abcentrum.ru",
+    emailHref: "mailto:info@abcentrum.ru"
+  },
   objects: [
     {
       id: "mitino",
