@@ -2317,8 +2317,8 @@
       success.textContent = "Заявка отправлена. Менеджер свяжется с вами по указанному телефону.";
       success.hidden = false;
       form.reset();
-    } catch (_) {
-      error.textContent = "Не удалось отправить заявку. Позвоните нам или напишите на " + data.contacts.email;
+    } catch (err) {
+      error.textContent = "Ошибка: " + (err?.text || err?.message || JSON.stringify(err));
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "Отправить заявку";
