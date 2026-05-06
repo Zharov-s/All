@@ -2299,7 +2299,7 @@
     try {
       await emailjs.send(
         "service_h8pzgv8",
-        "atbfuea",
+        "template_x9vj10v",
         {
           name: payload.name,
           email: payload.email,
@@ -2317,8 +2317,8 @@
       success.textContent = "Заявка отправлена. Менеджер свяжется с вами по указанному телефону.";
       success.hidden = false;
       form.reset();
-    } catch (err) {
-      error.textContent = "Ошибка: " + (err?.text || err?.message || JSON.stringify(err));
+    } catch (_) {
+      error.textContent = "Не удалось отправить заявку. Позвоните нам или напишите на " + data.contacts.email;
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "Отправить заявку";
