@@ -494,7 +494,7 @@
     return getMetroData(objectId).color;
   }
 
-  function getMetroIcon() {
+  function getMetroIcon(_objectId) {
     return `<span class="metro-icon" aria-hidden="true"><img src="assets/Moscow_Metro.svg.svg" alt="" width="18" height="18"></span>`;
   }
 
@@ -502,7 +502,7 @@
     const center = { lat: 55.7856, lng: 37.6409 };
     const zoom = window.matchMedia("(max-width: 760px)").matches ? 9 : 10;
     const points = objects.map((object) => {
-      const color = object.id === "mitino" ? "rd" : object.id === "nekrasovka" ? "rd" : "rd";
+      const color = "rd";
       return `${object.lng},${object.lat},pm2${color}m${object.mapIndex}`;
     }).join("~");
     const params = new URLSearchParams({
@@ -851,12 +851,12 @@
 
   function enforceBuyRules(lots) {
     if (filters.deal !== "buy") return lots;
-    return lots.filter((lot) => ["NKR-SALE-01", "GRK-SALE-01"].includes(lot.id));
+    return lots.filter((lot) => lot.type.toLowerCase().includes("целиком"));
   }
 
   function sortLots(lots) {
     const sorted = [...lots];
-    const sort = filters.sort || document.querySelector('[data-filter="sort"]')?.value || "recommended";
+    const sort = filters.sort || "recommended";
     if (sort === "areaAsc") sorted.sort((a, b) => a.area - b.area);
     if (sort === "areaDesc") sorted.sort((a, b) => b.area - a.area);
     if (sort === "priceAsc") sorted.sort((a, b) => (a.sortPrice || a.sortRate || 0) - (b.sortPrice || b.sortRate || 0));
@@ -944,7 +944,7 @@
   }
 
   function getLotMedia(lot, object) {
-    if (lot?.id === "NKR-ALL-R" || lot?.id === "NKR-SALE-01") {
+    if (lot?.type?.toLowerCase().includes("целиком")) {
       return { src: object.image, isPlan: false, alt: `${object.title} · ${lot.id}` };
     }
 
@@ -2290,47 +2290,39 @@
 
     try {
       localStorage.setItem("abcentrum:lastRequest", JSON.stringify(payload));
-    } catch (error) {}
+    } catch (_) {}
 
-    if (data.contacts.formEndpoint) {
-      try {
-        const response = await fetch(data.contacts.formEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error("request failed");
-        success.innerHTML = "Заявка отправлена. Менеджер свяжется с вами по указанному телефону.";
-        success.hidden = false;
-        form.reset();
-        return;
-      } catch (requestError) {
-        error.textContent = "Автоматическая отправка временно недоступна. Используйте быстрые контакты ниже.";
-      }
+    const submitBtn = form.querySelector("[type=submit]");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Отправляем…";
+
+    try {
+      await emailjs.send(
+        "service_h8pzgv8",
+        "atbfuea",
+        {
+          name: payload.name,
+          email: payload.email,
+          message: [
+            `Телефон: ${payload.phone}`,
+            `Объект: ${payload.building}`,
+            `Помещение: ${payload.lot}`,
+            `Комментарий: ${payload.comment}`,
+            `Избранное: ${payload.favorites.join(", ") || "нет"}`,
+            `Страница: ${payload.page}`
+          ].join("\n")
+        },
+        "NgPj9I3nl_2BgDqcR"
+      );
+      success.textContent = "Заявка отправлена. Менеджер свяжется с вами по указанному телефону.";
+      success.hidden = false;
+      form.reset();
+    } catch (_) {
+      error.textContent = "Не удалось отправить заявку. Позвоните нам или напишите на " + data.contacts.email;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Отправить заявку";
     }
-
-    const text = [
-      "Заявка ABCENTRUM",
-      `Имя: ${payload.name}`,
-      `Телефон: ${payload.phone}`,
-      `Email: ${payload.email}`,
-      `Объект: ${payload.building}`,
-      `Помещение: ${payload.lot}`,
-      `Избранное: ${payload.favorites.join(", ") || "нет"}`,
-      `Комментарий: ${payload.comment}`,
-      `Страница: ${payload.page}`
-    ].join("%0A");
-    const emailHref = `mailto:${data.contacts.email}?subject=${encodeURIComponent("Заявка ABCENTRUM")}&body=${text}`;
-    success.innerHTML = `
-      <strong>Заявка подготовлена.</strong>
-      <span>Передайте её менеджеру быстрым способом:</span>
-      <div class="form-success-actions">
-        <a class="btn btn-dark" href="${data.contacts.telegramHref}" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
-        <a class="btn btn-ghost" href="${data.contacts.phoneHref}">Позвонить</a>
-        <a class="btn btn-ghost" href="${emailHref}">Отправить email</a>
-      </div>
-    `;
-    success.hidden = false;
   }
 
   function closeModal() {
@@ -2391,6 +2383,7 @@
   function bindKeyboard() {
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
+      if (document.querySelector(".mc-modal.is-open")) return;
       closeModal();
       closeDrawer();
       setMobileMenu(false);
@@ -2781,13 +2774,13 @@
       modalIdx = ri;
       showModalSlide();
       modal.classList.add("is-open");
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("is-modal-open");
       modalClose.focus();
       stopAuto();
     }
     function closeModal() {
       modal.classList.remove("is-open");
-      document.body.style.overflow = "";
+      document.body.classList.remove("is-modal-open");
       startAuto();
     }
 
@@ -2804,7 +2797,7 @@
   }
 
   function normalize(value) {
-    return String(value || "").toLowerCase().replace("ё", "е").trim();
+    return String(value || "").toLowerCase().replaceAll("ё", "е").trim();
   }
 
   function formatArea(area) {
@@ -2824,7 +2817,6 @@
     if (key === "object") return value.split(",").map((id) => objectById[id]?.shortTitle || id).join(", ");
     if (key === "type") return formats.find(([id]) => id === value)?.[1] || value;
     if (key === "status") return statusLabel(value);
-    if (key === "purpose") return purposes.find(([id]) => id === value)?.[1] || value;
     return value;
   }
 })();
