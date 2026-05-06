@@ -2312,7 +2312,7 @@
             `Страница: ${payload.page}`
           ].join("\n")
         },
-        "NgPj9I3nl_2BgDqcR"
+        { publicKey: "NgPj9I3nl_2BgDqcR" }
       );
       success.textContent = "Заявка отправлена. Менеджер свяжется с вами по указанному телефону.";
       success.hidden = false;
