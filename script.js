@@ -120,7 +120,7 @@
   }
 
   function initCookieBanner() {
-    const storageKey = "abcentrum:cookieConsent";
+    const storageKey = "abcentrum:cookieConsent:v2";
     let accepted = false;
     try {
       accepted = localStorage.getItem(storageKey) === "accepted";
